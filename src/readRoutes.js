@@ -6,16 +6,16 @@
 */
 
 function readRoutes(routes) {
-  const arrToInstance = routes.map((route) => ({
+  const routesFormated = routes.map((route) => ({
     path: route[0],
-    categoryName: route[1],
+    category: route[1],
     method: route[2],
     params: route[3] ? route[3] : undefined,
     body: route[4] ? route[4] : undefined,
     headers: route[5] ? route[5] : undefined
   }));
 
-  return arrToInstance;
+  return routesFormated;
 }
 
 module.exports = readRoutes;
