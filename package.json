@@ -1,5 +1,5 @@
 {
-  "name": "@taverna/taverna-swagger-generator",
+  "name": "@taverna/swagger-generator",
   "version": "1.0.0",
   "description": "A private package to automatic generate swagger docs of routes declared inside the project",
   "main": "index.ts",
