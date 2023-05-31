@@ -1,4 +1,3 @@
-const readRoutes = require("./readRoutes");
 const pathGenerator = require('./pathMethods/pathGenerator');
 
 function filterUniqueCategories(routesFormated) {
@@ -12,7 +11,7 @@ function filterUniqueCategories(routesFormated) {
   return categories;
 }
 
-function preparePreviewJson(routesFormated) {
+module.exports = (routesFormated) => {
   const swaggerDoc = {
     openapi: '3.0.3',
     info: {
@@ -38,28 +37,15 @@ function preparePreviewJson(routesFormated) {
   swaggerDoc.tags = categories.map((cat) => ({ name: cat }));
 
   swaggerDoc.paths = pathGenerator(routesFormated);
+  swaggerDoc.components = {
+    securitySchemes: {
+      bearerAuth: {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT'
+      }
+    }
+  }
+
   return swaggerDoc;
 }
-
-/*
-  [
-    ['/system', 'system', 'get', undefined, zodSchema, { authCode: 'string' }],
-    ['/system/:id', 'system', 'getById', { id: 'string' }, zodSchema, { authCode: 'string' }]
-  ]
-*/
-
-// const routesFormated = readRoutes([
-//   ['/system', 'system', 'get', undefined, {
-//     name: 'Adson',
-//     address: 'Brazil',
-//     job: 'IT Analyst'
-//   }, { authCode: 'string' }],
-//   ['/system', 'system', 'post', undefined, {
-//     name: 'Adson',
-//     address: 'Brazil',
-//     job: 'IT Analyst'
-//   }, { authCode: 'string' }],
-// ]);
-
-// const swagger = preparePreviewJson(routesFormated);
-// console.log(swagger);
