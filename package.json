@@ -1,0 +1,19 @@
+{
+  "name": "@table-rise/auto-swagger",
+  "version": "1.0.0",
+  "description": "A library to auto generate swagger documents",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/TableRise/auto-swagger.git"
+  },
+  "author": "@table-rise/adson-gomes-oliveira",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TableRise/auto-swagger.git./issues"
+  },
+  "homepage": "https://github.com/TableRise/auto-swagger.git.#readme"
+}
