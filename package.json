@@ -1,6 +1,6 @@
 {
   "name": "@table-rise/auto-swagger",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A library to auto generate swagger documents",
   "main": "index.js",
   "scripts": {
