@@ -19,7 +19,7 @@ const fs = require('fs').promises;
  *  money: 0.00
  * }, true]
  * 
- * [endpoint, category, method, schema, parameters, bearerAuthorization]
+ * [endpoint, category, method, parameters, schema, bearerAuthorization]
  * 
  * Parameters properties: name, location (query, path, header), required (true or false), type: string, number, array ...
  * 
@@ -31,9 +31,8 @@ async function generateSwaggerDoc(routes) {
 
   try {
     console.log('Starting Generation of Swagger Document');
-    await fs.mkdir('docs', { recursive: true });
-    await fs.mkdir('docs/json', { recursive: true });
-    await fs.writeFile('docs/json/swagger-doc.json', JSON.stringify(newSwaggerDoc), { flag: 'w' });
+    await fs.mkdir('api-docs', { recursive: true });
+    await fs.writeFile('api-docs/swagger-doc.json', JSON.stringify(newSwaggerDoc), { flag: 'w' });
   } catch (error) {
     console.log(error);
   }
