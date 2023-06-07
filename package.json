@@ -15,5 +15,6 @@
   "bugs": {
     "url": "https://github.com/TableRise/auto-swagger.git./issues"
   },
-  "homepage": "https://github.com/TableRise/auto-swagger.git.#readme"
+  "homepage": "https://github.com/TableRise/auto-swagger.git.#readme",
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" }
 }
