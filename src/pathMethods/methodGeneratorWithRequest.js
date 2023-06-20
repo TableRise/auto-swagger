@@ -22,6 +22,8 @@ module.exports = (route) => {
     }
   }
 
+  newMethod.tags.push(route.category);
+
   if (route.auth) newMethod.security = [ { bearerAuth: [] } ];
 
   if (route.params) newMethod.parameters = route.params.map((param) => {
