@@ -4,8 +4,9 @@ module.exports = (routes) => {
     category: route[1],
     method: route[2],
     params: route[3] ? route[3] : undefined,
-    schema: route[4] ? route[4] : undefined,
-    auth: route[5] ? route[5] : false,
+    schemaResponse: route[4] ? route[4] : undefined,
+    schemaRequest: route[5] ? route[5] : undefined,
+    auth: route[6] ? route[6] : false,
   }));
 
   return routesFormated;

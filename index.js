@@ -30,7 +30,6 @@ async function generateSwaggerDoc(routes) {
   const newSwaggerDoc = preparePreviewJson(routesFormated);
 
   try {
-    console.log('Starting Generation of Swagger Document');
     await fs.mkdir('api-docs', { recursive: true });
     await fs.writeFile('api-docs/swagger-doc.json', JSON.stringify(newSwaggerDoc), { flag: 'w' });
   } catch (error) {

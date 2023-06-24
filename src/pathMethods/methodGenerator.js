@@ -10,6 +10,9 @@ module.exports = (route) => {
       401: {
         description: 'Unauthorized'
       },
+      403: {
+        description: 'Forbidden'
+      },
       404: {
         description: 'Not Found'
       },
@@ -45,23 +48,25 @@ module.exports = (route) => {
   if (route.method === 'post') newMethod.responses[201] = { description: 'Created' };
   if (route.method === 'delete') newMethod.responses[204] = { description: 'No content' };
 
-  if (route.schema) {
+  if (route.schemaResponse) {
+    newMethod.responses[200].content = {
+      ['application/json']: {
+        schema: {
+          type: 'object',
+          properties: responseSchemaPropertiesGenerator(route.schemaResponse)
+        }
+      }
+    }
+  }
+
+  if (route.schemaRequest) {
     newMethod.requestBody = {
       content: {
         ['application/json']: {
           schema: {
             type: 'object',
-            properties: responseSchemaPropertiesGenerator(route.schema, { includeId: true })
+            properties: responseSchemaPropertiesGenerator(route.schemaRequest)
           }
-        }
-      }
-    }
-
-    newMethod.responses[200].content = {
-      ['application/json']: {
-        schema: {
-          type: 'object',
-          properties: responseSchemaPropertiesGenerator(route.schema, { includeId: true })
         }
       }
     }

@@ -1,5 +1,5 @@
 const methodGeneratorWithoutRequest = require('./methodGeneratorWithoutRequest');
-const methodGeneratorWithRequest = require('./methodGeneratorWithRequest');
+const methodGeneratorWithRequest = require('./methodGenerator');
 
 module.exports = (routesFormated) => {
   const paths = {};
@@ -14,27 +14,14 @@ module.exports = (routesFormated) => {
   routesFormated.forEach((route) => {
     const previousPathMethods = { prev: paths[route.path] };
 
-    if (route.method === 'get' || route.method === 'delete') {
-      const newPathMethod = {
-        [route.method]: methodGeneratorWithoutRequest(route)
-      };
+    const newPathMethod = {
+      [route.method]: methodGeneratorWithoutRequest(route)
+    };
 
-      paths[route.path] = {
-        ...previousPathMethods.prev,
-        ...newPathMethod,
-      };
-    }
-
-    if (route.method === 'post' || route.method === 'put' || route.method === 'patch') {
-      const newPathMethod = {
-        [route.method]: methodGeneratorWithRequest(route)
-      };
-
-      paths[route.path] = {
-        ...previousPathMethods.prev,
-        ...newPathMethod,
-      };
-    }
+    paths[route.path] = {
+      ...previousPathMethods.prev,
+      ...newPathMethod,
+    };
   });
 
   return paths;

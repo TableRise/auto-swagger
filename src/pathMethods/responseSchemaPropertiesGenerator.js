@@ -1,4 +1,4 @@
-module.exports = (schema, { includeId=false }) => {
+module.exports = (schema) => {
   let schemaSwagger = {};
   const schemaKeyValues = Object.entries(schema);
 
@@ -6,9 +6,7 @@ module.exports = (schema, { includeId=false }) => {
     schemaSwagger[pair[0]] = {
       example: pair[1]
     }
-  })
-
-  schemaSwagger = includeId ? Object.assign({ _id: { example: '' } }, schemaSwagger) : schemaSwagger;
+  });
 
   return schemaSwagger;
 };
