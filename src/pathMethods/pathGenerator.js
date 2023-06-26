@@ -1,5 +1,4 @@
-const methodGeneratorWithoutRequest = require('./methodGeneratorWithoutRequest');
-const methodGeneratorWithRequest = require('./methodGenerator');
+const methodGenerator = require('./methodGenerator');
 
 module.exports = (routesFormated) => {
   const paths = {};
@@ -15,7 +14,7 @@ module.exports = (routesFormated) => {
     const previousPathMethods = { prev: paths[route.path] };
 
     const newPathMethod = {
-      [route.method]: methodGeneratorWithoutRequest(route)
+      [route.method]: methodGenerator(route)
     };
 
     paths[route.path] = {
