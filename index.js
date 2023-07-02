@@ -2,7 +2,6 @@ const readRoutes = require('./src/readRoutes');
 const preparePreviewJson = require('./src/preparePreviewJson');
 const contentComparison = require('./src/contentComparison');
 
-
 const fs = require('fs').promises;
 
 async function generateSwaggerDoc(routes) {
@@ -27,7 +26,5 @@ async function generateSwaggerDoc(routes) {
 
   console.log(':: Swagger Document Generated ::');
 }
-
-generateSwaggerDoc()
 
 module.exports = generateSwaggerDoc;
