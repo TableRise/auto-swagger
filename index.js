@@ -9,6 +9,11 @@ async function generateSwaggerDoc(routes) {
 
   try {
     await fs.mkdir('api-docs', { recursive: true });
+
+    const prevSwagger = await fs.readFile('api-docs/swagger-doc.json');
+
+    if (JSON.parse(prevSwagger) === newSwaggerDoc) return;
+
     await fs.writeFile('api-docs/swagger-doc.json', JSON.stringify(newSwaggerDoc), { flag: 'w' });
   } catch (error) {
     console.log(error);
