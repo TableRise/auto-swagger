@@ -23,8 +23,6 @@ async function generateSwaggerDoc(routes) {
   } catch (error) {
     console.log(error);
   }
-
-  console.log(':: Swagger Document Generated ::');
 }
 
 module.exports = generateSwaggerDoc;
