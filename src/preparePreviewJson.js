@@ -15,16 +15,16 @@ module.exports = (routesFormated) => {
   const swaggerDoc = {
     openapi: '3.0.3',
     info: {
-      title: 'Taverna do Mestre',
+      title: 'TableRise',
       contact: {
-        email: 'taverna-do-mestre@outlook.com',
-        name: 'Taverna-do-Mestre'
+        email: 'tablerise@outlook.com',
+        name: 'tablerise'
       },
       license: {
         name: 'MIT',
         url: 'https://opensource.org/licenses/MIT'
       },
-      version: '2.0.0'
+      version: '2.1.0'
     },
     servers: [
       {
