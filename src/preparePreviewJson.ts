@@ -2,7 +2,7 @@ import { routeFormatedTypes } from './types/routesTypes';
 import { swaggerDocTypes } from './types/swaggerDocTypes';
 import pathGenerator from './pathMethods/pathGenerator';
 
-function filterUniqueCategories(routesFormated: routeFormatedTypes[]) {
+function filterUniqueCategories(routesFormated: routeFormatedTypes[]): string[] {
   const categories = [];
 
   routesFormated.forEach((route) => {

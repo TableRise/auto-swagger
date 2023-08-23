@@ -1,5 +1,7 @@
-export default (schema) => {
-  let schemaSwagger = {};
+import { schemaProperties } from "../types/methodTypes";
+
+export default (schema: any): schemaProperties => {
+  let schemaSwagger = {} as schemaProperties;
   const schemaKeyValues = Object.entries(schema);
 
   schemaKeyValues.forEach((pair) => {

@@ -22,15 +22,17 @@ export interface methodTypes {
   };
 }
 
+export type schemaProperties = {
+  [entityName: string]: {
+    example: string;
+  };
+}[];
+
 interface contentTypes {
   ['application/json']: {
     schema: {
       type: string;
-      properties: {
-        [entityName: string]: {
-          example: string;
-        };
-      }[];
+      properties: schemaProperties
     };
   };
 }
