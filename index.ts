@@ -5,7 +5,7 @@ import { swaggerOptions } from './src/types/swaggerDocTypes';
 
 const fs = require('fs').promises;
 
-export default async function generateSwaggerDoc(routes: routeOriginal, options: swaggerOptions) {
+export default async function generateSwaggerDoc(routes: routeOriginal, options: swaggerOptions = {} as swaggerOptions) {
   const routesFormated = readRoutes(routes);
   const newSwaggerDoc = preparePreviewJson(routesFormated, options);
 
@@ -16,3 +16,5 @@ export default async function generateSwaggerDoc(routes: routeOriginal, options:
     console.log(error);
   }
 }
+
+export { routeOriginal };
