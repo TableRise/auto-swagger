@@ -1,3 +1,5 @@
+export type serversUrls = { url: string }[];
+
 export interface swaggerDocTypes {
   openapi: string;
   info: {
@@ -12,11 +14,7 @@ export interface swaggerDocTypes {
     };
     version: string;
   };
-  servers: [
-    {
-      url: string;
-    }
-  ];
+  servers: serversUrls;
   tags?: {
     name: string;
   }[];
@@ -30,4 +28,9 @@ export interface swaggerDocTypes {
       };
     };
   };
+}
+
+export interface swaggerOptions {
+  title: string
+  newUrl: string
 }

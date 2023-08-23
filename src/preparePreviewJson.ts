@@ -1,5 +1,5 @@
 import { routeFormatedTypes } from './types/routesTypes';
-import { swaggerDocTypes } from './types/swaggerDocTypes';
+import { serversUrls, swaggerDocTypes, swaggerOptions } from './types/swaggerDocTypes';
 import pathGenerator from './pathMethods/pathGenerator';
 
 function filterUniqueCategories(routesFormated: routeFormatedTypes[]): string[] {
@@ -13,11 +13,17 @@ function filterUniqueCategories(routesFormated: routeFormatedTypes[]): string[] 
   return categories;
 }
 
-export default (routesFormated: routeFormatedTypes[]) => {
+function generateServers(newUrl: string): serversUrls {
+  const urls = [{ url: 'http://localhost:3001' }];
+  if (newUrl) urls.push({ url: newUrl });
+  return urls;
+}
+
+export default (routesFormated: routeFormatedTypes[], options: swaggerOptions) => {
   const swaggerDoc: swaggerDocTypes = {
     openapi: '3.0.3',
     info: {
-      title: 'TableRise',
+      title: options.title ? `TableRise - ${options.title}` : 'TableRise',
       contact: {
         email: 'tablerise@outlook.com',
         name: 'tablerise',
@@ -26,13 +32,9 @@ export default (routesFormated: routeFormatedTypes[]) => {
         name: 'MIT',
         url: 'https://opensource.org/licenses/MIT',
       },
-      version: '2.1.0',
+      version: '3.0.0',
     },
-    servers: [
-      {
-        url: 'http://localhost:3001',
-      },
-    ],
+    servers: generateServers(options.newUrl),
   };
 
   const categories = filterUniqueCategories(routesFormated);
