@@ -11,7 +11,12 @@ export default async function generateSwaggerDoc(routes: routeOriginal, options:
 
   try {
     await fs.mkdir('api-docs', { recursive: true });
-    await fs.writeFile('api-docs/swagger-doc.json', JSON.stringify(newSwaggerDoc), { flag: 'w' });
+    await fs.writeFile(options.title
+      ? `api-docs/swagger-doc-${options.title}.json`
+      : 'api-docs/swagger-doc.json',
+      JSON.stringify(newSwaggerDoc),
+      { flag: 'w' }
+    );
   } catch (error) {
     console.log(error);
   }
