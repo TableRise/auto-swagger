@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+      "outDir": "./dist",
+      "rootDir": ".",
+      "target": "es2019",
+      "module": "commonjs",
+      "declaration": true,
+  },
+  "exclude": ["node_modules", "dist"]
+}

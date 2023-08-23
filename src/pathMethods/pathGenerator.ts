@@ -1,6 +1,7 @@
-const methodGenerator = require('./methodGenerator');
+import { routeFormatedTypes } from '../types/routesTypes';
+import methodGenerator from './methodGenerator';
 
-module.exports = (routesFormated) => {
+export default (routesFormated: routeFormatedTypes[]) => {
   const paths = {};
 
   routesFormated.forEach((route) => {
@@ -14,7 +15,7 @@ module.exports = (routesFormated) => {
     const previousPathMethods = { prev: paths[route.path] };
 
     const newPathMethod = {
-      [route.method]: methodGenerator(route)
+      [route.method]: methodGenerator(route),
     };
 
     paths[route.path] = {
@@ -24,4 +25,4 @@ module.exports = (routesFormated) => {
   });
 
   return paths;
-}
+};

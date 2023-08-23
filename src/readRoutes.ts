@@ -1,4 +1,6 @@
-module.exports = (routes) => {
+import { routeFormatedTypes, routeOriginal } from './types/routesTypes';
+
+export default (routes: routeOriginal): routeFormatedTypes[] => {
   const routesFormated = routes.map((route) => ({
     path: route[0],
     category: route[1],
@@ -10,4 +12,4 @@ module.exports = (routes) => {
   }));
 
   return routesFormated;
-}
+};
