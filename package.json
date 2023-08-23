@@ -2,9 +2,10 @@
   "name": "@tablerise/auto-swagger",
   "version": "1.2.1",
   "description": "A library to auto generate swagger documents",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "dist": "tsc && copy /Y package.json dist && cd dist && npm publish"
   },
   "repository": {
     "type": "git",
@@ -18,5 +19,9 @@
   "homepage": "https://github.com/TableRise/auto-swagger.git.#readme",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
+  },
+  "devDependencies": {
+    "@types/node": "20.1.1",
+    "typescript": "5.0.4"
   }
 }
