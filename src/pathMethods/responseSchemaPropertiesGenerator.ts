@@ -1,4 +1,4 @@
-module.exports = (schema) => {
+export default (schema) => {
   let schemaSwagger = {};
   const schemaKeyValues = Object.entries(schema);
 

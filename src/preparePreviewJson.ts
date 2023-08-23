@@ -1,7 +1,6 @@
 import { routeFormatedTypes } from './types/routesTypes';
 import { swaggerDocTypes } from './types/swaggerDocTypes';
-
-const pathGenerator = require('./pathMethods/pathGenerator');
+import pathGenerator from './pathMethods/pathGenerator';
 
 function filterUniqueCategories(routesFormated: routeFormatedTypes[]) {
   const categories = [];
@@ -14,7 +13,7 @@ function filterUniqueCategories(routesFormated: routeFormatedTypes[]) {
   return categories;
 }
 
-module.exports = (routesFormated: routeFormatedTypes[]) => {
+export default (routesFormated: routeFormatedTypes[]) => {
   const swaggerDoc: swaggerDocTypes = {
     openapi: '3.0.3',
     info: {

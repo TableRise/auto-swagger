@@ -1,9 +1,9 @@
-const readRoutes = require('./src/readRoutes');
-const preparePreviewJson = require('./src/preparePreviewJson');
+import readRoutes from'./src/readRoutes';
+import preparePreviewJson from'./src/preparePreviewJson';
 
 const fs = require('fs').promises;
 
-async function generateSwaggerDoc(routes) {
+export default async function generateSwaggerDoc(routes) {
   const routesFormated = readRoutes(routes);
   const newSwaggerDoc = preparePreviewJson(routesFormated);
 
@@ -14,5 +14,3 @@ async function generateSwaggerDoc(routes) {
     console.log(error);
   }
 }
-
-module.exports = generateSwaggerDoc;

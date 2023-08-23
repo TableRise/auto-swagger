@@ -1,9 +1,8 @@
 import { methodTypes } from '../types/methodTypes';
 import { routeFormatedTypes } from '../types/routesTypes';
+import responseSchemaPropertiesGenerator from './responseSchemaPropertiesGenerator';
 
-const responseSchemaPropertiesGenerator = require('./responseSchemaPropertiesGenerator');
-
-module.exports = (route: routeFormatedTypes) => {
+export default (route: routeFormatedTypes) => {
   const newMethod: methodTypes = {
     tags: [],
     responses: {
