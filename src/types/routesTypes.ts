@@ -7,7 +7,6 @@ export type params = {
   required: boolean;
   type: string
 }[]
-export type schemaResponse = any;
 export type schemaRequest = any;
 export type auth = boolean;
 
@@ -16,7 +15,6 @@ export type routeOriginal = [
   category,
   method,
   params,
-  schemaResponse,
   schemaRequest,
   auth
 ][];
@@ -26,7 +24,6 @@ export interface routeFormatedTypes {
   category: category;
   method: method;
   params: params;
-  schemaResponse: schemaResponse;
   schemaRequest: schemaRequest;
   auth: auth;
 }
