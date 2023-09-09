@@ -14,7 +14,7 @@ export type routeOriginal = [
   path,
   category,
   method,
-  params,
+  params | null,
   schemaRequest,
   auth
 ][];
