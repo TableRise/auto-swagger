@@ -29,5 +29,6 @@ export interface routeInstance {
     middlewares: unknown[],
     authentication: auth,
     tag: category,
-  }
+  },
+  hide: boolean
 }
