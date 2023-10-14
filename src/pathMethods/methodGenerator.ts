@@ -58,17 +58,6 @@ export default (route: routeFormatedTypes) => {
   if (route.method === 'delete')
     newMethod.responses[204] = { description: 'No content' };
 
-  if (route.schemaResponse) {
-    newMethod.responses[200].content = {
-      ['application/json']: {
-        schema: {
-          type: 'object',
-          properties: responseSchemaPropertiesGenerator(route.schemaResponse),
-        },
-      },
-    };
-  }
-
   if (route.schemaRequest) {
     newMethod.requestBody = {
       content: {

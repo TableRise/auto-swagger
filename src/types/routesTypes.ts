@@ -11,22 +11,24 @@ export type schemaResponse = any;
 export type schemaRequest = any;
 export type auth = boolean;
 
-export type routeOriginal = [
-  path,
-  category,
-  method,
-  params,
-  schemaResponse,
-  schemaRequest,
-  auth
-][];
-
 export interface routeFormatedTypes {
   path: path;
   category: category;
   method: method;
   params: params;
-  schemaResponse: schemaResponse;
   schemaRequest: schemaRequest;
   auth: auth;
+}
+
+export interface routeInstance {
+  path: path,
+  method: method,
+  parameters: params,
+  schema: schemaRequest,
+  controller: unknown,
+  options: {
+    middlewares: unknown[],
+    authentication: auth,
+    tag: category,
+  }
 }

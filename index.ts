@@ -1,11 +1,12 @@
 import readRoutes from'./src/readRoutes';
 import preparePreviewJson from'./src/preparePreviewJson';
-import { routeOriginal } from './src/types/routesTypes';
+import { routeInstance } from './src/types/routesTypes';
 import { swaggerOptions } from './src/types/swaggerDocTypes';
+import { Router } from 'express';
 
 const fs = require('fs').promises;
 
-export default async function generateSwaggerDoc(routes: routeOriginal, options: swaggerOptions) {
+export default async function generateSwaggerDoc(routes: routeInstance[], options: swaggerOptions) {
   const routesFormated = readRoutes(routes);
   const newSwaggerDoc = preparePreviewJson(routesFormated, options);
 
@@ -15,4 +16,12 @@ export default async function generateSwaggerDoc(routes: routeOriginal, options:
   } catch (error) {
     console.log(error);
   }
+}
+
+export function buildRouter(routes: routeInstance[], router: Router): Router {
+  routes.forEach((route) => {
+    router[route.method](route.path, ...route.options.middlewares, route.controller)
+  });
+
+  return router;
 }
