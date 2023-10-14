@@ -31,6 +31,6 @@ export interface swaggerDocTypes {
 }
 
 export interface swaggerOptions {
-  title: string
-  newUrl: string
+  title?: string
+  newUrl?: string
 }

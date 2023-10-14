@@ -7,7 +7,6 @@ export type params = {
   required: boolean;
   type: string
 }[]
-export type schemaResponse = any;
 export type schemaRequest = any;
 export type auth = boolean;
 

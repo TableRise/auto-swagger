@@ -6,13 +6,18 @@ import { Router } from 'express';
 
 const fs = require('fs').promises;
 
-export default async function generateSwaggerDoc(routes: routeInstance[], options: swaggerOptions) {
+export default async function generateSwaggerDoc(routes: routeInstance[], options: swaggerOptions = {} as swaggerOptions) {
   const routesFormated = readRoutes(routes);
   const newSwaggerDoc = preparePreviewJson(routesFormated, options);
 
   try {
     await fs.mkdir('api-docs', { recursive: true });
-    await fs.writeFile('api-docs/swagger-doc.json', JSON.stringify(newSwaggerDoc), { flag: 'w' });
+    await fs.writeFile(options.title
+      ? `api-docs/swagger-doc-${options.title}.json`
+      : 'api-docs/swagger-doc.json',
+      JSON.stringify(newSwaggerDoc),
+      { flag: 'w' }
+    );
   } catch (error) {
     console.log(error);
   }
@@ -25,3 +30,5 @@ export function buildRouter(routes: routeInstance[], router: Router): Router {
 
   return router;
 }
+
+export { routeInstance };
