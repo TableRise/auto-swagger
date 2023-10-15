@@ -1,7 +1,8 @@
 import { routeFormatedTypes, routeInstance } from './types/routesTypes';
 
 export default (routes: routeInstance[]): routeFormatedTypes[] => {
-  const routesFormated = routes.map((route) => {
+  const routesToProcess = routes.filter((route) => !route.hide);
+  const routesFormated = routesToProcess.map((route) => {
     if (route.hide) return;
 
     return {
