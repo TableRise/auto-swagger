@@ -25,10 +25,10 @@ export default async function generateSwaggerDoc(routes: routeInstance[], option
 
 export function buildRouter(routes: routeInstance[], router: Router): Router {
   routes.forEach((route) => {
-    if (route.controller && route.options.middlewares.length) router[route.method](route.path, ...route.options.middlewares, route.controller);
+    if (!route.controller && !route.options.middlewares.length) throw new Error('Route must have at least one controller or middleware');
     if (!route.controller && route.options.middlewares.length) router[route.method](route.path, ...route.options.middlewares);
     if (route.controller && !route.options.middlewares.length) router[route.method](route.path, route.controller);
-    if (!route.controller && !route.options.middlewares.length) throw new Error('Route must have at least one controller or middleware');
+    if (route.controller && route.options.middlewares.length) router[route.method](route.path, ...route.options.middlewares, route.controller);
   });
 
   return router;
