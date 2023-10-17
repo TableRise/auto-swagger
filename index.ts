@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import readRoutes from'./src/readRoutes';
 import preparePreviewJson from'./src/preparePreviewJson';
 import { routeInstance } from './src/types/routesTypes';
@@ -6,7 +5,6 @@ import { swaggerOptions } from './src/types/swaggerDocTypes';
 import { Router } from 'express';
 
 const fs = require('fs').promises;
-const { NODE_ENV } = process.env;
 
 export default async function generateSwaggerDoc(routes: routeInstance[], options: swaggerOptions = {} as swaggerOptions) {
   const routesFormated = readRoutes(routes);
@@ -26,19 +24,12 @@ export default async function generateSwaggerDoc(routes: routeInstance[], option
 }
 
 export function buildRouter(routes: routeInstance[], router: Router): Router {
-  const render = NODE_ENV === 'dev' || NODE_ENV === 'prod';
-
   routes.forEach((route) => {
     if (!route.controller && !route.options.middlewares) throw new Error('Route must have at least one controller or middleware');
     if (route.controller && !route.options.middlewares) return router[route.method](route.path, route.controller);
-
-    if (!route.controller && route.options.middlewares.length && render) return router[route.method](route.path, ...route.options.middlewares);
-    if (!route.controller && route.options.middlewares.length && !render) return router[route.method](route.path);
-
+    if (!route.controller && route.options.middlewares.length) return router[route.method](route.path, ...route.options.middlewares);
     if (route.options.middlewares.length === 0) throw new Error('Middlewares property can not be an empty array');
-
-    if (route.controller && route.options.middlewares.length && render) return router[route.method](route.path, ...route.options.middlewares, route.controller);
-    if (route.controller && route.options.middlewares.length && !render) return router[route.method](route.path, route.controller);
+    if (route.controller && route.options.middlewares.length) return router[route.method](route.path, ...route.options.middlewares, route.controller);
   });
 
   return router;
