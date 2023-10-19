@@ -7,6 +7,7 @@ export default (routes: routeInstance[]): routeFormatedTypes[] => {
       category: route.options.tag,
       method: route.method,
       params: route.parameters,
+      description: route.options.description,
       schemaRequest: route.schema,
       auth: route.options.authentication,
   }));

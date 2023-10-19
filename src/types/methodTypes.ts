@@ -1,5 +1,6 @@
 export interface methodTypes {
   tags: string[];
+  description?: string;
   responses: {
     [entityName: number]: {
       description: string;

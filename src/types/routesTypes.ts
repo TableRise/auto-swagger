@@ -9,12 +9,14 @@ export type params = {
 }[]
 export type schemaRequest = any;
 export type auth = boolean;
+export type description = string;
 
 export interface routeFormatedTypes {
   path: path;
   category: category;
   method: method;
   params: params;
+  description: description;
   schemaRequest: schemaRequest;
   auth: auth;
 }
@@ -28,6 +30,7 @@ export interface routeInstance {
   options: {
     middlewares: unknown[],
     authentication: auth,
+    description: description,
     tag: category,
   },
   hide: boolean

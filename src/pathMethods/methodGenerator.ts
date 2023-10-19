@@ -58,6 +58,8 @@ export default (route: routeFormatedTypes) => {
   if (route.method === 'delete')
     newMethod.responses[204] = { description: 'No content' };
 
+  if (route.description) newMethod.description = route.description;
+
   if (route.schemaRequest) {
     newMethod.requestBody = {
       content: {
