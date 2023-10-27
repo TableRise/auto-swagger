@@ -33,7 +33,7 @@ export default (route: routeFormatedTypes) => {
 
   if (route.params)
     newMethod.parameters = route.params.map((param) => {
-      if (param.name === '_id' && !route.path.includes('_id')) {
+      if (param.name === 'id' && !route.path.includes('id')) {
         throw new Error('Parameter _id must be in path too');
       }
 
