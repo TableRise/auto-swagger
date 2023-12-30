@@ -10,6 +10,7 @@ export type params = {
 export type schemaRequest = any;
 export type auth = boolean;
 export type description = string;
+export type fileUpload = boolean;
 
 export interface routeFormatedTypes {
   path: path;
@@ -19,19 +20,21 @@ export interface routeFormatedTypes {
   description: description;
   schemaRequest: schemaRequest;
   auth: auth;
+  file: fileUpload;
 }
 
 export interface routeInstance {
-  path: path,
-  method: method,
-  parameters: params,
-  schema: schemaRequest,
-  controller: unknown,
+  path: path;
+  method: method;
+  parameters: params;
+  schema: schemaRequest;
+  controller: unknown;
   options: {
-    middlewares: unknown[],
-    authentication: auth,
-    description: description,
-    tag: category,
-  },
-  hide: boolean
+    middlewares: unknown[];
+    authentication: auth;
+    description: description;
+    tag: category;
+    fileUpload: fileUpload
+  };
+  hide: boolean;
 }

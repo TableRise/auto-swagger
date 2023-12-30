@@ -31,6 +31,8 @@ export default (route: routeFormatedTypes) => {
 
   if (route.auth) newMethod.security = [{ bearerAuth: [] }];
 
+  if (route.file) newMethod.consumes = ['multipart/form-data'];
+
   if (route.params)
     newMethod.parameters = route.params.map((param) => {
       if (param.name === 'id' && !route.path.includes('id')) {

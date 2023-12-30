@@ -10,6 +10,7 @@ export default (routes: routeInstance[]): routeFormatedTypes[] => {
       description: route.options.description,
       schemaRequest: route.schema,
       auth: route.options.authentication,
+      file: route.options.fileUpload
   }));
 
   return routesFormated;

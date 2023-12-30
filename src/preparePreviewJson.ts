@@ -14,9 +14,7 @@ function filterUniqueCategories(routesFormated: routeFormatedTypes[]): string[] 
 }
 
 function generateServers(newUrl: string): serversUrls {
-  const urls = [{ url: 'http://localhost:3001' }];
-  if (newUrl) urls.push({ url: newUrl });
-  return urls;
+  return [{ url: newUrl }];
 }
 
 export default (routesFormated: routeFormatedTypes[], options: swaggerOptions) => {
@@ -32,7 +30,7 @@ export default (routesFormated: routeFormatedTypes[], options: swaggerOptions) =
         name: 'MIT',
         url: 'https://opensource.org/licenses/MIT',
       },
-      version: '3.0.0',
+      version: '4.0.0',
     },
     servers: generateServers(options.newUrl),
   };

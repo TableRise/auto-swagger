@@ -21,6 +21,7 @@ export interface methodTypes {
   requestBody?: {
     content?: contentTypes;
   };
+  consumes?: string[];
 }
 
 export type schemaProperties = {
