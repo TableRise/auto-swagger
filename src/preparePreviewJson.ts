@@ -13,12 +13,6 @@ function filterUniqueCategories(routesFormated: routeFormatedTypes[]): string[] 
   return categories;
 }
 
-function generateServers(newUrl: string): serversUrls {
-  const urls = [{ url: 'http://localhost:3001' }];
-  if (newUrl) urls.unshift({ url: newUrl });
-  return urls;
-}
-
 export default (routesFormated: routeFormatedTypes[], options: swaggerOptions) => {
   const swaggerDoc: swaggerDocTypes = {
     openapi: '3.0.3',
@@ -34,7 +28,7 @@ export default (routesFormated: routeFormatedTypes[], options: swaggerOptions) =
       },
       version: '3.0.0',
     },
-    servers: generateServers(options.newUrl),
+    servers: [{ url: options.url }],
   };
 
   const categories = filterUniqueCategories(routesFormated);
