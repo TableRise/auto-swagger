@@ -14,7 +14,7 @@ function filterUniqueCategories(routesFormated: routeFormatedTypes[]): string[] 
 }
 
 function generateServers(newUrl: string): serversUrls {
-  const urls = [{ url: newUrl }];
+  const urls = [{ url: 'http://localhost:3001' }];
   if (newUrl) urls.unshift({ url: newUrl });
   return urls;
 }
