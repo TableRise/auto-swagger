@@ -26,12 +26,20 @@ export interface methodTypes {
 
 export type schemaProperties = {
   [entityName: string]: {
+    type: string;
     example: string;
   };
 }[];
 
 interface contentTypes {
-  ['application/json']: {
+  ['application/json']?: {
+    schema: {
+      type: string;
+      properties: schemaProperties
+    };
+  };
+
+  ['multipart/form-data']?: {
     schema: {
       type: string;
       properties: schemaProperties
