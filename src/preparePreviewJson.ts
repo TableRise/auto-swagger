@@ -28,11 +28,7 @@ export default (routesFormated: routeFormatedTypes[], options: swaggerOptions) =
       },
       version: '3.0.0',
     },
-    servers: [
-      { url: 'http://localhost:3001/' },
-      { url: 'https://server.tablerise.com/' },
-      { url: 'https://server.qa.tablerise.com/' }
-    ],
+    servers: options.url.map((url) => ({ url })),
   };
 
   const categories = filterUniqueCategories(routesFormated);
