@@ -8,7 +8,7 @@ export default (routes: routeInstance[]): routeFormatedTypes[] => {
       method: route.method,
       params: route.parameters,
       description: route.options.description,
-      schemaRequest: route.schema,
+      schema: route.options.validator,
       auth: route.options.authentication,
       file: route.options.fileUpload
   }));

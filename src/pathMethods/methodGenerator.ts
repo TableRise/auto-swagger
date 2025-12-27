@@ -62,13 +62,13 @@ export default (route: routeFormatedTypes) => {
 
   if (route.description) newMethod.description = route.description;
 
-  if (route.schemaRequest) {
+  if (route.schema) {
     newMethod.requestBody = {
       content: {
         [route.file ? 'multipart/form-data' : 'application/json']: {
           schema: {
             type: 'object',
-            properties: responseSchemaPropertiesGenerator(route.schemaRequest),
+            properties: responseSchemaPropertiesGenerator(route.schema),
           },
         },
       },

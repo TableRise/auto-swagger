@@ -1,8 +1,12 @@
-import { schemaProperties } from "../types/methodTypes";
+import { ZodType } from 'zod';
+import { generateMock } from '@anatine/zod-mock';
+import { schemaProperties } from '../types/methodTypes';
 
-export default (schema: any): schemaProperties => {
+export default (schema: ZodType): schemaProperties => {
+  const mock = generateMock(schema);
+
   let schemaSwagger = {} as schemaProperties;
-  const schemaKeyValues = Object.entries(schema) as [string, any][];
+  const schemaKeyValues = Object.entries(mock) as [string, any][];
 
   schemaKeyValues.forEach((pair) => {
     schemaSwagger[pair[0]] = {

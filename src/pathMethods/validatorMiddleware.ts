@@ -4,7 +4,7 @@ import HttpValidationError from './httpRequestErrors';
 import { $ZodIssue } from 'zod/v4/core';
 
 export function validatorMiddleware(schema: ZodType) {
-    return (_res: Response, req: Request, next: NextFunction) => {
+    return (req: Request, _res: Response, next: NextFunction) => {
         if (schema) {
             let payload: any;
 

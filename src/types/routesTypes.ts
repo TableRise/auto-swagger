@@ -20,7 +20,7 @@ export interface routeFormatedTypes {
   method: method;
   params: params;
   description: description;
-  schemaRequest: schemaRequest;
+  schema: ZodType | undefined;
   auth: auth;
   file: fileUpload;
 }
@@ -29,7 +29,6 @@ export interface routeInstance {
   path: path;
   method: method;
   parameters: params;
-  schema: schemaRequest;
   controller: unknown;
   options: {
     middlewares: unknown[];
