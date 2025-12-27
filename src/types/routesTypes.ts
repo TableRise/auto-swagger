@@ -1,3 +1,5 @@
+import { ZodType } from 'zod';
+
 export type path = string;
 export type category = string;
 export type method = string;
@@ -33,8 +35,9 @@ export interface routeInstance {
     middlewares: unknown[];
     authentication: auth;
     description: description;
+    validator?: ZodType;
     tag: category;
-    fileUpload: fileUpload
+    fileUpload: fileUpload;
   };
   hide: boolean;
 }

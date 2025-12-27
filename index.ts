@@ -3,6 +3,7 @@ import preparePreviewJson from'./src/preparePreviewJson';
 import { routeInstance } from './src/types/routesTypes';
 import { swaggerOptions } from './src/types/swaggerDocTypes';
 import { Router } from 'express';
+import { validatorMiddleware } from './src/pathMethods/validatorMiddleware';
 
 const fs = require('fs').promises;
 
@@ -26,10 +27,27 @@ export default async function generateSwaggerDoc(routes: routeInstance[], option
 export function buildRouter(routes: routeInstance[], router: Router): Router {
   routes.forEach((route) => {
     if (!route.controller && !route.options.middlewares) throw new Error('Route must have at least one controller or middleware');
-    if (route.controller && !route.options.middlewares) return router[route.method](route.path, route.controller);
-    if (!route.controller && route.options.middlewares.length) return router[route.method](route.path, ...route.options.middlewares);
+
+    if (route.controller && !route.options.middlewares) return router[route.method](
+      route.path,
+      validatorMiddleware(route.options.validator),
+      route.controller
+    );
+
+    if (!route.controller && route.options.middlewares.length) return router[route.method](
+      route.path,
+      validatorMiddleware(route.options.validator),
+      ...route.options.middlewares
+    );
+
     if (route.options.middlewares.length === 0) throw new Error('Middlewares property can not be an empty array');
-    if (route.controller && route.options.middlewares.length) return router[route.method](route.path, ...route.options.middlewares, route.controller);
+
+    if (route.controller && route.options.middlewares.length) return router[route.method](
+      route.path,
+      validatorMiddleware(route.options.validator),
+      ...route.options.middlewares,
+      route.controller
+    );
   });
 
   return router;
