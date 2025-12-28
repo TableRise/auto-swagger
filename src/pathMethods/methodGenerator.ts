@@ -62,13 +62,13 @@ export default (route: routeFormatedTypes) => {
 
   if (route.description) newMethod.description = route.description;
 
-  if (route.schema) {
+  if (route.validator && route.validator.generateSwaggerExample) {
     newMethod.requestBody = {
       content: {
         [route.file ? 'multipart/form-data' : 'application/json']: {
           schema: {
             type: 'object',
-            properties: responseSchemaPropertiesGenerator(route.schema),
+            properties: responseSchemaPropertiesGenerator(route.validator.schema),
           },
         },
       },

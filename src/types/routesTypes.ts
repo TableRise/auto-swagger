@@ -14,17 +14,6 @@ export type auth = boolean;
 export type description = string;
 export type fileUpload = boolean;
 
-export interface routeFormatedTypes {
-  path: path;
-  category: category;
-  method: method;
-  params: params;
-  description: description;
-  schema: ZodType | undefined;
-  auth: auth;
-  file: fileUpload;
-}
-
 export interface routeInstance {
   path: path;
   method: method;
@@ -34,9 +23,20 @@ export interface routeInstance {
     middlewares: unknown[];
     authentication: auth;
     description: description;
-    validator?: ZodType;
+    validator?: { schema: ZodType, generateSwaggerExample: boolean };
     tag: category;
     fileUpload: fileUpload;
   };
   hide: boolean;
+}
+
+export interface routeFormatedTypes {
+  path: routeInstance['path'];
+  category: routeInstance['options']['tag'];
+  method: routeInstance['method'];
+  params: routeInstance['parameters'];
+  description: routeInstance['options']['description'];
+  validator?: routeInstance['options']['validator'];
+  auth: routeInstance['options']['authentication'];
+  file: routeInstance['options']['fileUpload'];
 }

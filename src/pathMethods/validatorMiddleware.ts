@@ -2,17 +2,18 @@ import { NextFunction, Request, Response } from 'express';
 import { ZodType } from 'zod';
 import HttpValidationError from './httpRequestErrors';
 import { $ZodIssue } from 'zod/v4/core';
+import { routeFormatedTypes } from '../types/routesTypes';
 
-export function validatorMiddleware(schema: ZodType) {
+export function validatorMiddleware(validator: routeFormatedTypes['validator']) {
     return (req: Request, _res: Response, next: NextFunction) => {
-        if (schema) {
+        if (validator) {
             let payload: any;
 
             if (req.body) payload = req.body;
             if (req.params) payload = req.params;
             if (req.query) payload = req.query;
 
-            const verify = schema.safeParse(payload);
+            const verify = validator.schema.safeParse(payload);
 
             if (!verify.success)
                 throw new HttpValidationError({
