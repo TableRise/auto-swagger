@@ -23,7 +23,11 @@ export interface routeInstance {
     middlewares: unknown[];
     authentication: auth;
     description: description;
-    validator?: { schema: ZodType, generateSwaggerExample: boolean };
+    schemas?: {
+      body?: ZodType;
+      params?: ZodType;
+      query?: ZodType;
+    }[];
     tag: category;
     fileUpload: fileUpload;
   };
@@ -36,7 +40,7 @@ export interface routeFormatedTypes {
   method: routeInstance['method'];
   params: routeInstance['parameters'];
   description: routeInstance['options']['description'];
-  validator?: routeInstance['options']['validator'];
+  schemas?: routeInstance['options']['schemas'];
   auth: routeInstance['options']['authentication'];
   file: routeInstance['options']['fileUpload'];
 }

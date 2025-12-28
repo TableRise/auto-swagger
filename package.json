@@ -1,6 +1,6 @@
 {
   "name": "@tablerise/auto-swagger",
-  "version": "4.2.3",
+  "version": "4.3.0",
   "description": "A library to auto generate swagger documents",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

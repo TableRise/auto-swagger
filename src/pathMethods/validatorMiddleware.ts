@@ -4,18 +4,21 @@ import HttpValidationError from './httpRequestErrors';
 import { $ZodIssue } from 'zod/v4/core';
 import { routeFormatedTypes } from '../types/routesTypes';
 
-export function validatorMiddleware(validator: routeFormatedTypes['validator']) {
+export function validatorMiddleware(schemas: routeFormatedTypes['schemas']) {
     return (req: Request, _res: Response, next: NextFunction) => {
-        if (validator) {
-            let payload: any;
+        if (schemas) {
+            schemas.forEach((schema) => {
+                let httpDataType: string;
 
-            if (req.body) payload = req.body;
-            if (req.params) payload = req.params;
-            if (req.query) payload = req.query;
+                Object.entries(schema).forEach(([key, value]) => {
+                    if (value !== undefined) {
+                        httpDataType = key;
+                    }
+                });
 
-            const verify = validator.schema.safeParse(payload);
+                const verify = schema[httpDataType].safeParse(req[httpDataType]);
 
-            if (!verify.success)
+                if (!verify.success)
                 throw new HttpValidationError({
                     message: 'Schema error',
                     code: 422,
@@ -29,6 +32,7 @@ export function validatorMiddleware(validator: routeFormatedTypes['validator']) 
                         path: 'payload',
                     })),
                 });
+            });
         }
 
         next();

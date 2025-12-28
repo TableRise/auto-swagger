@@ -62,13 +62,15 @@ export default (route: routeFormatedTypes) => {
 
   if (route.description) newMethod.description = route.description;
 
-  if (route.validator && route.validator.generateSwaggerExample) {
+  const schemaToGenerateMock = route.schemas.find((schema) => schema.body);
+
+  if (route.schemas && schemaToGenerateMock) {
     newMethod.requestBody = {
       content: {
         [route.file ? 'multipart/form-data' : 'application/json']: {
           schema: {
             type: 'object',
-            properties: responseSchemaPropertiesGenerator(route.validator.schema),
+            properties: responseSchemaPropertiesGenerator(schemaToGenerateMock.body),
           },
         },
       },
