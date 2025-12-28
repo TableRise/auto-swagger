@@ -1,9 +1,9 @@
-import { ZodType } from 'zod';
-import { fake } from 'zod-schema-faker'
+import { ZodType, z } from 'zod';
+import { zocker } from 'zocker';
 import { schemaProperties } from '../types/methodTypes';
 
-export default (schema: ZodType): schemaProperties => {
-  const mock = fake(schema as any);
+export default function rp (schema: ZodType): schemaProperties {
+  const mock = zocker(schema).generate();
 
   let schemaSwagger = {} as schemaProperties;
   const schemaKeyValues = Object.entries(mock) as [string, any][];
@@ -19,3 +19,5 @@ export default (schema: ZodType): schemaProperties => {
 
   return schemaSwagger;
 };
+
+rp({} as ZodType);
