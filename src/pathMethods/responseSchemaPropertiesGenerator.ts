@@ -2,7 +2,7 @@ import { ZodType, z } from 'zod';
 import { zocker } from 'zocker';
 import { schemaProperties } from '../types/methodTypes';
 
-export default function rp (schema: ZodType): schemaProperties {
+export default (schema: ZodType): schemaProperties => {
   const mock = zocker(schema).generate();
 
   let schemaSwagger = {} as schemaProperties;
@@ -19,5 +19,3 @@ export default function rp (schema: ZodType): schemaProperties {
 
   return schemaSwagger;
 };
-
-rp({} as ZodType);
