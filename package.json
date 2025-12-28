@@ -1,6 +1,6 @@
 {
   "name": "@tablerise/auto-swagger",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "description": "A library to auto generate swagger documents",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -30,9 +30,8 @@
     "/dist"
   ],
   "dependencies": {
-    "@anatine/zod-mock": "^3.14.0",
-    "@faker-js/faker": "^10.1.0",
     "dotenv": "16.3.1",
-    "zod": "4.2.1"
+    "zod": "4.2.1",
+    "zod-schema-faker": "2.1.0"
   }
 }

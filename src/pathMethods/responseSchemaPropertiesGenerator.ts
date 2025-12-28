@@ -1,9 +1,9 @@
 import { ZodType } from 'zod';
-import { generateMock } from '@anatine/zod-mock';
+import { fake } from 'zod-schema-faker'
 import { schemaProperties } from '../types/methodTypes';
 
 export default (schema: ZodType): schemaProperties => {
-  const mock = generateMock(schema);
+  const mock = fake(schema as any);
 
   let schemaSwagger = {} as schemaProperties;
   const schemaKeyValues = Object.entries(mock) as [string, any][];

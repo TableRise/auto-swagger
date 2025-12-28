@@ -1,5 +1,5 @@
 import { routeFormatedTypes } from './types/routesTypes';
-import { serversUrls, swaggerDocTypes, swaggerOptions } from './types/swaggerDocTypes';
+import { swaggerDocTypes, swaggerOptions } from './types/swaggerDocTypes';
 import pathGenerator from './pathMethods/pathGenerator';
 
 function filterUniqueCategories(routesFormated: routeFormatedTypes[]): string[] {
