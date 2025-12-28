@@ -62,19 +62,21 @@ export default (route: routeFormatedTypes) => {
 
   if (route.description) newMethod.description = route.description;
 
-  const schemaToGenerateMock = route.schemas.find((schema) => schema.body);
+  if (route.schemas) {
+    const schemaToGenerateMock = route.schemas.find((schema) => schema.body);
 
-  if (route.schemas && schemaToGenerateMock) {
-    newMethod.requestBody = {
-      content: {
-        [route.file ? 'multipart/form-data' : 'application/json']: {
-          schema: {
-            type: 'object',
-            properties: responseSchemaPropertiesGenerator(schemaToGenerateMock.body),
+    if (schemaToGenerateMock) {
+      newMethod.requestBody = {
+        content: {
+          [route.file ? 'multipart/form-data' : 'application/json']: {
+            schema: {
+              type: 'object',
+              properties: responseSchemaPropertiesGenerator(schemaToGenerateMock.body),
+            },
           },
         },
-      },
-    };
+      };
+    }
   }
 
   return newMethod;
