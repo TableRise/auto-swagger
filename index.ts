@@ -30,13 +30,13 @@ export function buildRouter(routes: routeInstance[], router: Router): Router {
 
     if (route.controller && !route.options.middlewares) return router[route.method](
       route.path,
-      validatorMiddleware(route.options.validator),
+      validatorMiddleware(route.options.schemas),
       route.controller
     );
 
     if (!route.controller && route.options.middlewares.length) return router[route.method](
       route.path,
-      validatorMiddleware(route.options.validator),
+      validatorMiddleware(route.options.schemas),
       ...route.options.middlewares
     );
 
@@ -44,7 +44,7 @@ export function buildRouter(routes: routeInstance[], router: Router): Router {
 
     if (route.controller && route.options.middlewares.length) return router[route.method](
       route.path,
-      validatorMiddleware(route.options.validator),
+      validatorMiddleware(route.options.schemas),
       ...route.options.middlewares,
       route.controller
     );
