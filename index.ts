@@ -36,16 +36,16 @@ export function buildRouter(routes: routeInstance[], router: Router): Router {
 
     if (!route.controller && route.options.middlewares.length) return router[route.method](
       route.path,
-      validatorMiddleware(route.options.schemas),
-      ...route.options.middlewares
+      ...route.options.middlewares,
+      validatorMiddleware(route.options.schemas)
     );
 
     if (route.options.middlewares.length === 0) throw new Error('Middlewares property can not be an empty array');
 
     if (route.controller && route.options.middlewares.length) return router[route.method](
       route.path,
-      validatorMiddleware(route.options.schemas),
       ...route.options.middlewares,
+      validatorMiddleware(route.options.schemas),
       route.controller
     );
   });
