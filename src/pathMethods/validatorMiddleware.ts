@@ -15,22 +15,24 @@ export function validatorMiddleware(schemas: routeFormatedTypes['schemas']) {
                     }
                 });
 
-                const verify = schema[httpDataType].safeParse(req.file ? req.file : req[httpDataType]);
-
-                if (!verify.success)
-                throw new HttpValidationError({
-                    message: 'Schema error',
-                    code: 422,
-                    name: 'Unprocessable Entity',
-                    details: verify.error.issues.map((err: $ZodIssue ) => ({
-                        attribute: JSON.stringify(err.path)
-                            .replace(/,/g, '.')
-                            .replace(/ /g, '')
-                            .replace(/['"[\]]/g, ''),
-                        reason: err.message,
-                        path: 'payload',
-                    })),
-                });
+                if (!req.file) {
+                    const verify = schema[httpDataType].safeParse(req[httpDataType]);
+    
+                    if (!verify.success)
+                        throw new HttpValidationError({
+                            message: 'Schema error',
+                            code: 422,
+                            name: 'Unprocessable Entity',
+                            details: verify.error.issues.map((err: $ZodIssue ) => ({
+                                attribute: JSON.stringify(err.path)
+                                    .replace(/,/g, '.')
+                                    .replace(/ /g, '')
+                                    .replace(/['"[\]]/g, ''),
+                                reason: err.message,
+                                path: 'payload',
+                            })),
+                        });
+                }
             });
         }
 
