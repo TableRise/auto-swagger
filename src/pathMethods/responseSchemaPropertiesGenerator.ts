@@ -3,12 +3,15 @@ import { zocker } from 'zocker';
 import { schemaProperties } from '../types/methodTypes';
 
 export default (schema: ZodType): schemaProperties => {
-  const mock = zocker(schema).generate();
+  // @ts-expect-error isBinary must exist below.
+  const mock = zocker(schema).override(z.ZodFile, { isBinary: true }).generate();
 
   let schemaSwagger = {} as schemaProperties;
   const schemaKeyValues = Object.entries(mock) as [string, any][];
 
   schemaKeyValues.forEach((pair) => {
+    if (!pair[1]) pair[1] = 'string';
+
     schemaSwagger[pair[0]] = {
       type: pair[1].isBinary ? 'string' : typeof pair[1],
       example: pair[1]
