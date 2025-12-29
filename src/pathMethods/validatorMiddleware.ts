@@ -1,11 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
-import { ZodType } from 'zod';
 import HttpValidationError from './httpRequestErrors';
 import { $ZodIssue } from 'zod/v4/core';
 import { routeFormatedTypes } from '../types/routesTypes';
 
 export function validatorMiddleware(schemas: routeFormatedTypes['schemas']) {
-    return (req: Request, _res: Response, next: NextFunction) => {
+    return (req: Request & { file: File }, _res: Response, next: NextFunction) => {
         if (schemas) {
             schemas.forEach((schema) => {
                 let httpDataType: string;
@@ -16,7 +15,7 @@ export function validatorMiddleware(schemas: routeFormatedTypes['schemas']) {
                     }
                 });
 
-                const verify = schema[httpDataType].safeParse(req[httpDataType]);
+                const verify = schema[httpDataType].safeParse(req.file ? req.file : req[httpDataType]);
 
                 if (!verify.success)
                 throw new HttpValidationError({
