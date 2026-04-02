@@ -1,12 +1,9 @@
-import { ZodType, z } from 'zod';
-import { install, fake } from 'zod-schema-faker'
-import { faker } from '@faker-js/faker'
+import { ZodObject } from 'zod';
 import { schemaProperties } from '../types/methodTypes';
-import { ZodSchema } from 'zod/v3';
+import generateFakeData from './generateFakeData';
 
-export default (schema: ZodType): schemaProperties => {
-  install();
-  const mock = fake(schema as unknown as ZodSchema);
+export default (schema: ZodObject): schemaProperties => {
+  const mock = generateFakeData(schema);
 
   let schemaSwagger = {} as schemaProperties;
   const schemaKeyValues = Object.entries(mock) as [string, any][];

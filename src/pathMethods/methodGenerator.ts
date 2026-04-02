@@ -1,3 +1,4 @@
+import { ZodObject } from 'zod';
 import { methodTypes } from '../types/methodTypes';
 import { routeFormatedTypes } from '../types/routesTypes';
 import responseSchemaPropertiesGenerator from './responseSchemaPropertiesGenerator';
@@ -71,7 +72,7 @@ export default (route: routeFormatedTypes) => {
           [route.file ? 'multipart/form-data' : 'application/json']: {
             schema: {
               type: 'object',
-              properties: responseSchemaPropertiesGenerator(schemaToGenerateMock.body),
+              properties: responseSchemaPropertiesGenerator(schemaToGenerateMock.body as ZodObject),
             },
           },
         },
