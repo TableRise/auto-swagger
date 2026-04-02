@@ -1,10 +1,12 @@
 import { ZodType, z } from 'zod';
-import { zocker } from 'zocker';
+import { install, fake } from 'zod-schema-faker'
+import { faker } from '@faker-js/faker'
 import { schemaProperties } from '../types/methodTypes';
+import { ZodSchema } from 'zod/v3';
 
 export default (schema: ZodType): schemaProperties => {
-  // @ts-expect-error isBinary must exist below.
-  const mock = zocker(schema).override(z.ZodFile, { isBinary: true }).generate();
+  install();
+  const mock = fake(schema as unknown as ZodSchema);
 
   let schemaSwagger = {} as schemaProperties;
   const schemaKeyValues = Object.entries(mock) as [string, any][];
