@@ -108,6 +108,12 @@ function buildUsersRoutes() {
 
 test('registers routes, writes grouped docs, and serves docs routes', async () => {
   await withTempProject(async (tempDir) => {
+    const originalConsoleLog = console.log;
+    const loggedMessages = [];
+    console.log = (...args) => {
+      loggedMessages.push(args.join(' '));
+    };
+
     const swagger = createAutoSwagger({
       docs: {
         title: 'Test API',
@@ -139,9 +145,16 @@ test('registers routes, writes grouped docs, and serves docs routes', async () =
       { exclude: ['/login'], mode: 'append' }
     );
 
-    const providedRoutes = swagger.provideRoutes(buildUsersRoutes(), { group: 'users' });
-    const firstRouter = providedRoutes.register();
-    const secondRouter = providedRoutes.register();
+    let firstRouter;
+    let secondRouter;
+
+    try {
+      const providedRoutes = swagger.provideRoutes(buildUsersRoutes(), { group: 'users' });
+      firstRouter = providedRoutes.register();
+      secondRouter = providedRoutes.register();
+    } finally {
+      console.log = originalConsoleLog;
+    }
 
     assert.strictEqual(firstRouter, secondRouter);
 
@@ -160,6 +173,10 @@ test('registers routes, writes grouped docs, and serves docs routes', async () =
 
     const docsFilePath = path.join(tempDir, 'api-docs', 'swagger-doc-users.json');
     assert.equal(fs.existsSync(docsFilePath), true);
+    assert.match(
+      loggedMessages.join('\n'),
+      /Swagger docs generated for group "users" at ".*swagger-doc-users\.json"/
+    );
 
     const docs = JSON.parse(fs.readFileSync(docsFilePath, 'utf8'));
     assert.ok(docs.paths['/users/profile'].get.security);
@@ -193,6 +210,10 @@ test('registers routes, writes grouped docs, and serves docs routes', async () =
     assert.match(docsStylesResponse.headers['content-type'], /text\/css/);
     assert.match(docsStylesResponse.text, /color-scheme:\s*dark/);
     assert.match(docsStylesResponse.text, /--docs-bg:\s*#0a0f1f/);
+    assert.match(docsStylesResponse.text, /\.swagger-ui \.information-container,\s*\.swagger-ui \.scheme-container[\s\S]*background:\s*transparent !important/);
+    assert.match(docsStylesResponse.text, /\.swagger-ui \.opblock \.opblock-summary-path,\s*\.swagger-ui \.opblock \.opblock-summary-path__deprecated\s*\{[\s\S]*font-size:\s*14px/);
+    assert.match(docsStylesResponse.text, /@container swagger-ui \(max-width: 768px\)\s*\{[\s\S]*font-size:\s*10px/);
+    assert.match(docsStylesResponse.text, /\.swagger-ui \.opblock-tag,\s*\.swagger-ui \.opblock \.opblock-summary-path[\s\S]*color:\s*#fff !important/);
 
     const docsLogoResponse = await request(app).get('/api-docs/logo.png');
     assert.equal(docsLogoResponse.status, 404);

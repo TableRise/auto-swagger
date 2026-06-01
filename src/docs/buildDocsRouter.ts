@@ -193,24 +193,76 @@ a {
   border-radius: 18px;
 }
 
+.swagger-ui .information-container,
+.swagger-ui .scheme-container,
+.swagger-ui .scheme-container .schemes,
+.swagger-ui .scheme-container .auth-wrapper,
+.swagger-ui .scheme-container .auth-container,
+.swagger-ui .scheme-container .auth-container section {
+  background: transparent !important;
+}
+
+.swagger-ui .information-container,
+.swagger-ui .scheme-container {
+  border: 0;
+}
+
 .swagger-ui .info .title,
 .swagger-ui .info hgroup.main a,
+.swagger-ui .info hgroup.main,
 .swagger-ui .info p,
 .swagger-ui .info li,
+.swagger-ui .info .base-url,
+.swagger-ui .info .base-url code,
+.swagger-ui .info .base-url a,
 .swagger-ui .opblock-tag,
 .swagger-ui .opblock .opblock-summary-description,
+.swagger-ui .opblock .opblock-summary-path,
+.swagger-ui .opblock .opblock-summary-path__deprecated,
+.swagger-ui .opblock .opblock-summary-operation-id,
+.swagger-ui .opblock .opblock-summary-control,
+.swagger-ui .opblock-description-wrapper p,
+.swagger-ui .opblock-external-docs-wrapper p,
+.swagger-ui .opblock-title_normal p,
 .swagger-ui .parameter__name,
+.swagger-ui .parameter__type,
+.swagger-ui .parameter__deprecated,
+.swagger-ui .parameter__in,
+.swagger-ui .parameters-col_description,
+.swagger-ui .parameters-col_description p,
+.swagger-ui .parameters-col_description div,
 .swagger-ui .response-col_status,
+.swagger-ui .response-col_description,
+.swagger-ui .response-col_description p,
+.swagger-ui .response-col_links,
+.swagger-ui .responses-inner h4,
+.swagger-ui .responses-inner h5,
+.swagger-ui .tab li button.tablinks,
 .swagger-ui .tab li,
 .swagger-ui .model-title,
 .swagger-ui .prop-type,
+.swagger-ui .prop-format,
+.swagger-ui .property-row,
+.swagger-ui .property-row .property-name,
+.swagger-ui .property-row .property-type,
+.swagger-ui .property-row .property-format,
 .swagger-ui .responses-header td,
 .swagger-ui table thead tr td,
 .swagger-ui table thead tr th,
+.swagger-ui table tbody tr td,
 .swagger-ui .markdown p,
 .swagger-ui .markdown code,
+.swagger-ui .renderedMarkdown p,
+.swagger-ui .renderedMarkdown code,
 .swagger-ui label,
-.swagger-ui .authorization__btn {
+.swagger-ui .authorization__btn,
+.swagger-ui .dialog-ux .modal-ux-header h3,
+.swagger-ui .dialog-ux .modal-ux-content,
+.swagger-ui .dialog-ux .modal-ux-content p,
+.swagger-ui .dialog-ux label,
+.swagger-ui .dialog-ux .scopes h2,
+.swagger-ui .dialog-ux .scope-def,
+.swagger-ui .servers > label {
   color: var(--docs-text);
 }
 
@@ -220,6 +272,75 @@ a {
 .swagger-ui .opblock-summary-method,
 .swagger-ui .tab li button.tablinks {
   color: var(--docs-link-strong);
+}
+
+.swagger-ui .opblock .opblock-summary-path,
+.swagger-ui .opblock .opblock-summary-path__deprecated {
+  font-size: 14px;
+}
+
+@container swagger-ui (max-width: 768px) {
+  .swagger-ui .opblock .opblock-summary-path,
+  .swagger-ui .opblock .opblock-summary-path__deprecated {
+    font-size: 10px;
+  }
+}
+
+.swagger-ui .opblock-tag,
+.swagger-ui .opblock .opblock-summary-path,
+.swagger-ui .opblock .opblock-summary-description,
+.swagger-ui .parameters-col_name,
+.swagger-ui .response-col_status {
+  color: #fff !important;
+}
+
+.swagger-ui .opblock-section-header,
+.swagger-ui .opblock-section-header > div,
+.swagger-ui .responses-inner > div,
+.swagger-ui .responses-table,
+.swagger-ui table tbody tr td,
+.swagger-ui .parameter__extension,
+.swagger-ui .parameters-container,
+.swagger-ui .execute-wrapper,
+.swagger-ui .body-param,
+.swagger-ui .body-param__text,
+.swagger-ui .body-param-options,
+.swagger-ui .model-example,
+.swagger-ui .highlight-code,
+.swagger-ui .microlight,
+.swagger-ui .response-control-media-type,
+.swagger-ui .servers,
+.swagger-ui .servers-title,
+.swagger-ui .servers > label {
+  background: transparent !important;
+}
+
+.swagger-ui .opblock-section-header {
+  box-shadow: none;
+}
+
+.swagger-ui .opblock-section-header h4,
+.swagger-ui .opblock-section-header label,
+.swagger-ui .opblock-section-header .tab-header .tab-item button,
+.swagger-ui .responses-inner .responses-header td,
+.swagger-ui .responses-inner .response-col_status,
+.swagger-ui .responses-inner .response-col_description,
+.swagger-ui .responses-inner .tab li,
+.swagger-ui .responses-inner .tab li button {
+  color: #fff !important;
+}
+
+.swagger-ui .opblock-tag svg,
+.swagger-ui .opblock .arrow,
+.swagger-ui .opblock .arrow svg,
+.swagger-ui .expand-operation svg,
+.swagger-ui .expand-methods svg,
+.swagger-ui .models-control svg,
+.swagger-ui .model-toggle:after,
+.swagger-ui .authorization__btn svg {
+  fill: #fff !important;
+  color: #fff !important;
+  stroke: #fff !important;
 }
 
 .swagger-ui .btn,
@@ -233,6 +354,11 @@ a {
   border-color: var(--docs-border-strong);
   background: rgba(8, 13, 27, 0.95);
   color: var(--docs-text);
+}
+
+.swagger-ui select option {
+  color: var(--docs-text);
+  background: #08111f;
 }
 
 .swagger-ui .btn.execute {

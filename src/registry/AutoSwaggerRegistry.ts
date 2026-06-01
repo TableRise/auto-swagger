@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import logger from '@tablerise/dynamic-logger';
 import { Handler, Request, Response, Router } from 'express';
 import { generateOpenApiDocument } from '../docs/generateOpenApiDocument';
 import { normalizeRouteCollection } from '../normalize/normalizeRouteCollection';
@@ -184,6 +185,7 @@ export class AutoSwaggerRegistry {
 
     try {
       fs.writeFileSync(filePath, JSON.stringify(document, null, 2), 'utf8');
+      logger('info', `Swagger docs generated for group "${group}" at "${filePath}"`, true);
     } catch (error) {
       throw new Error(`Unable to write Swagger document for group "${group}" to "${filePath}"`);
     }

@@ -1,6 +1,6 @@
 {
   "name": "@tablerise/auto-swagger",
-  "version": "5.3.1",
+  "version": "5.3.2",
   "description": "A library to auto generate swagger documents",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -36,6 +36,7 @@
   ],
   "dependencies": {
     "@faker-js/faker": "10.4.0",
+    "@tablerise/dynamic-logger": "1.6.2",
     "dotenv": "16.3.1",
     "express": "4.18.0 || 5.0.0",
     "randexp": "0.5.3",
