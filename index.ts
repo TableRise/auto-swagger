@@ -8,7 +8,6 @@ export type {
   RouteCollectionDefinition,
   RouteDefinition,
   RouteOptions,
-  RouteParameter,
   RouteSchemas,
   SecurityRequirement,
   routeInstance,

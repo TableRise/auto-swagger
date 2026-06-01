@@ -5,14 +5,6 @@ export type HttpMethod = 'get' | 'post' | 'put' | 'patch' | 'delete' | 'options'
 export type OpenApiPrimitiveType = 'string' | 'number' | 'integer' | 'boolean';
 export type SecurityRequirement = Record<string, string[]>;
 
-export interface RouteParameter {
-  description?: string;
-  location: 'path' | 'query' | 'header' | 'cookie';
-  name: string;
-  required?: boolean;
-  type?: OpenApiPrimitiveType;
-}
-
 export interface RouteSchemas {
   body?: ZodTypeAny;
   params?: ZodTypeAny;
@@ -39,7 +31,6 @@ export interface RouteDefinition {
   hide?: boolean;
   method: HttpMethod;
   options?: RouteOptions;
-  parameters?: RouteParameter[];
   path: string;
 }
 

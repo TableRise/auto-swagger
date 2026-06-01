@@ -35,16 +35,6 @@ function normalizeServers(config: NormalizedDocsConfig): { url: string }[] {
 }
 
 function mergeParameters(route: NormalizedRoute): OpenApiParameter[] {
-  const explicitParams = route.parameters.map((parameter) => ({
-    name: parameter.name,
-    in: parameter.location,
-    required: parameter.location === 'path' ? true : parameter.required ?? false,
-    description: parameter.description,
-    schema: {
-      type: parameter.type,
-    },
-  }));
-
   const schemaParams = [
     ...getSchemaParameterDefinitions(route.schemas.params, 'path'),
     ...getSchemaParameterDefinitions(route.schemas.query, 'query'),
@@ -53,10 +43,6 @@ function mergeParameters(route: NormalizedRoute): OpenApiParameter[] {
   const merged = new Map<string, OpenApiParameter>();
 
   for (const parameter of schemaParams) {
-    merged.set(`${parameter.in}:${parameter.name}`, parameter);
-  }
-
-  for (const parameter of explicitParams) {
     merged.set(`${parameter.in}:${parameter.name}`, parameter);
   }
 

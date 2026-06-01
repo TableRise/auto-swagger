@@ -1,7 +1,6 @@
 import { Handler, Router } from 'express';
 import {
   HttpMethod,
-  RouteParameter,
   RouteSchemas,
   SecurityRequirement,
 } from './publicTypes';
@@ -28,7 +27,6 @@ export interface NormalizedRoute {
   method: HttpMethod;
   middlewares: Handler[];
   openApiPath: string;
-  parameters: RouteParameter[];
   pathParamNames: string[];
   relativePath: string;
   requestContentType?: 'application/json' | 'multipart/form-data';

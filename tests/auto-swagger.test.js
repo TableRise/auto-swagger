@@ -50,6 +50,20 @@ function buildUsersRoutes() {
       },
     },
     {
+      method: 'get',
+      path: '/search',
+      controller: (_req, res) => res.json({ ok: true }),
+      options: {
+        schemas: {
+          query: z.object({
+            email: z.string(),
+            flow: z.string().optional(),
+          }),
+        },
+        tag: 'users',
+      },
+    },
+    {
       method: 'post',
       path: '/upload',
       controller: (_req, res) => res.status(201).json({ uploaded: true }),
@@ -67,9 +81,6 @@ function buildUsersRoutes() {
       method: 'get',
       path: '/:id/orders/:orderId',
       controller: (_req, res) => res.json({ ok: true }),
-      parameters: [
-        { name: 'id', location: 'path', type: 'text' },
-      ],
       options: {
         tag: 'orders',
       },
@@ -153,7 +164,21 @@ test('registers routes, writes grouped docs, and serves docs routes', async () =
     const docs = JSON.parse(fs.readFileSync(docsFilePath, 'utf8'));
     assert.ok(docs.paths['/users/profile'].get.security);
     assert.equal(docs.paths['/users/upload'].post.requestBody.content['multipart/form-data'].schema.properties.avatar.format, 'binary');
-    assert.equal(docs.paths['/users/{id}/orders/{orderId}'].get.parameters.find((item) => item.name === 'id').schema.type, 'string');
+    assert.deepEqual(
+      docs.paths['/users/{id}/orders/{orderId}'].get.parameters.map((item) => item.name).sort(),
+      ['id', 'orderId']
+    );
+    assert.deepEqual(
+      docs.paths['/users/search'].get.parameters.map((item) => ({
+        in: item.in,
+        name: item.name,
+        required: item.required,
+      })).sort((left, right) => left.name.localeCompare(right.name)),
+      [
+        { in: 'query', name: 'email', required: true },
+        { in: 'query', name: 'flow', required: false },
+      ]
+    );
     assert.equal(docs.paths['/users/hidden'], undefined);
     assert.ok(docs.paths['/oauth/callback'].get);
 

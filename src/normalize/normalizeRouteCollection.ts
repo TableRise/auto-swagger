@@ -3,7 +3,6 @@ import {
   ProvideRoutesOptions,
   RouteCollectionDefinition,
   RouteDefinition,
-  RouteParameter,
   RouteSchemas,
   SecurityRequirement,
   routeInstance,
@@ -54,25 +53,6 @@ function normalizeSchemas(input?: RouteDefinition['options'] extends { schemas?:
   }
 
   return input.reduce<RouteSchemas>((accumulator, schemaPart) => ({ ...accumulator, ...schemaPart }), {});
-}
-
-function normalizeParameterType(type?: string): RouteParameter['type'] {
-  if (!type) {
-    return 'string';
-  }
-
-  const supportedTypes = new Set(['string', 'number', 'integer', 'boolean']);
-  return supportedTypes.has(type) ? (type as RouteParameter['type']) : 'string';
-}
-
-function normalizeParameters(parameters: RouteDefinition['parameters'] = []): RouteParameter[] {
-  return parameters.map((parameter) => ({
-    name: parameter.name,
-    location: parameter.location,
-    required: parameter.location === 'path' ? true : parameter.required ?? false,
-    description: parameter.description,
-    type: normalizeParameterType(parameter.type),
-  }));
 }
 
 function normalizeSecurity(
@@ -167,7 +147,6 @@ export function normalizeRouteCollection(
       method: routeEntry.method,
       middlewares: optionsData.middlewares ?? [],
       openApiPath: expressPathToOpenApi(runtimePath),
-      parameters: normalizeParameters(routeEntry.parameters),
       pathParamNames,
       relativePath,
       requestContentType,
