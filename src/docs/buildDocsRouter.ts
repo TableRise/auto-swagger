@@ -280,6 +280,10 @@ function renderDocsIndex(title: string, mountPath: string, groups: string[]) {
     )
     .join('');
   const stylesheetPath = `${mountPath}/docs.css`;
+  const logoPath = `${mountPath}/logo.png`;
+  const faviconMarkup = hasDocsLogo()
+    ? `<link rel="icon" type="image/png" href="${logoPath}" />`
+    : '';
 
   return `<!doctype html>
 <html lang="en">
@@ -287,6 +291,7 @@ function renderDocsIndex(title: string, mountPath: string, groups: string[]) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>${title}</title>
+    ${faviconMarkup}
     <link rel="stylesheet" href="${stylesheetPath}" />
   </head>
   <body>
@@ -315,6 +320,9 @@ function renderGroupPage(title: string, mountPath: string, group: string) {
   const logoMarkup = hasDocsLogo()
     ? `<img class="docs-logo" src="${logoPath}" alt="API logo" />`
     : '';
+  const faviconMarkup = hasDocsLogo()
+    ? `<link rel="icon" type="image/png" href="${logoPath}" />`
+    : '';
 
   return `<!doctype html>
 <html lang="en">
@@ -322,6 +330,7 @@ function renderGroupPage(title: string, mountPath: string, group: string) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>${title} - ${group}</title>
+    ${faviconMarkup}
     <link rel="stylesheet" href="${stylesheetPath}" />
     <link rel="stylesheet" href="${assetsPath}/swagger-ui.css" />
   </head>
