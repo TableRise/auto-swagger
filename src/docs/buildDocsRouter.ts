@@ -4,7 +4,7 @@ import path from 'path';
 import { AutoSwaggerRegistry } from '../registry/AutoSwaggerRegistry';
 
 const swaggerUiAssetPath = require('swagger-ui-dist').getAbsoluteFSPath();
-const docsLogoRelativePath = path.join('assets', 'img', 'logo.png');
+const docsLogoExtensions = ['png', 'jpg', 'jpeg', 'gif', 'webp', 'svg', 'ico', 'avif'];
 
 function renderDocsStylesheet() {
   return `:root {
@@ -272,7 +272,7 @@ a {
 `;
 }
 
-function renderDocsIndex(title: string, mountPath: string, groups: string[]) {
+function renderDocsIndex(title: string, mountPath: string, groups: string[], logoPublicPath?: string) {
   const links = groups
     .map(
       (group) =>
@@ -280,9 +280,8 @@ function renderDocsIndex(title: string, mountPath: string, groups: string[]) {
     )
     .join('');
   const stylesheetPath = `${mountPath}/docs.css`;
-  const logoPath = `${mountPath}/logo.png`;
-  const faviconMarkup = hasDocsLogo()
-    ? `<link rel="icon" type="image/png" href="${logoPath}" />`
+  const faviconMarkup = logoPublicPath
+    ? `<link rel="icon" href="${logoPublicPath}" />`
     : '';
 
   return `<!doctype html>
@@ -312,16 +311,15 @@ function renderDocsIndex(title: string, mountPath: string, groups: string[]) {
 </html>`;
 }
 
-function renderGroupPage(title: string, mountPath: string, group: string) {
+function renderGroupPage(title: string, mountPath: string, group: string, logoPublicPath?: string) {
   const assetsPath = `${mountPath}/assets`;
   const stylesheetPath = `${mountPath}/docs.css`;
   const initializerPath = `${mountPath}/${group}/swagger-initializer.js`;
-  const logoPath = `${mountPath}/logo.png`;
-  const logoMarkup = hasDocsLogo()
-    ? `<img class="docs-logo" src="${logoPath}" alt="API logo" />`
+  const logoMarkup = logoPublicPath
+    ? `<img class="docs-logo" src="${logoPublicPath}" alt="API logo" />`
     : '';
-  const faviconMarkup = hasDocsLogo()
-    ? `<link rel="icon" type="image/png" href="${logoPath}" />`
+  const faviconMarkup = logoPublicPath
+    ? `<link rel="icon" href="${logoPublicPath}" />`
     : '';
 
   return `<!doctype html>
@@ -371,13 +369,20 @@ function renderSwaggerInitializer(mountPath: string, group: string) {
 `;
 }
 
-function resolveDocsLogoPath() {
-  const logoPath = path.resolve(process.cwd(), docsLogoRelativePath);
-  return fs.existsSync(logoPath) ? logoPath : undefined;
-}
+function resolveDocsLogo(outputDir: string, mountPath: string) {
+  for (const extension of docsLogoExtensions) {
+    const filePath = path.join(outputDir, `logo.${extension}`);
 
-function hasDocsLogo() {
-  return Boolean(resolveDocsLogoPath());
+    if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+      return {
+        extension,
+        filePath,
+        publicPath: `${mountPath}/logo.${extension}`,
+      };
+    }
+  }
+
+  return undefined;
 }
 
 export function buildDocsRouter(registry: AutoSwaggerRegistry): Router {
@@ -389,22 +394,23 @@ export function buildDocsRouter(registry: AutoSwaggerRegistry): Router {
 
   router.get(mountPath, (_req: Request, res: Response) => {
     const groups = registry.listGroups();
-    res.type('html').send(renderDocsIndex(docsConfig.indexTitle, mountPath, groups));
+    const logo = resolveDocsLogo(docsConfig.outputDir, mountPath);
+    res.type('html').send(renderDocsIndex(docsConfig.indexTitle, mountPath, groups, logo?.publicPath));
   });
 
   router.get(`${mountPath}/docs.css`, (_req: Request, res: Response) => {
     res.type('text/css').send(renderDocsStylesheet());
   });
 
-  router.get(`${mountPath}/logo.png`, (_req: Request, res: Response) => {
-    const logoPath = resolveDocsLogoPath();
+  router.get(`${mountPath}/logo.:extension`, (req: Request, res: Response) => {
+    const logo = resolveDocsLogo(docsConfig.outputDir, mountPath);
 
-    if (!logoPath) {
+    if (!logo || req.params.extension.toLowerCase() !== logo.extension) {
       res.status(404).type('text/plain').send('Swagger logo not found');
       return;
     }
 
-    res.sendFile(logoPath);
+    res.sendFile(logo.filePath);
   });
 
   router.get(`${mountPath}/:group/swagger.json`, (req: Request, res: Response) => {
@@ -440,7 +446,8 @@ export function buildDocsRouter(registry: AutoSwaggerRegistry): Router {
       return;
     }
 
-    res.type('html').send(renderGroupPage(docsConfig.title, mountPath, group));
+    const logo = resolveDocsLogo(docsConfig.outputDir, mountPath);
+    res.type('html').send(renderGroupPage(docsConfig.title, mountPath, group, logo?.publicPath));
   });
 
   return router;

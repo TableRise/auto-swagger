@@ -236,14 +236,14 @@ test('fails fast when a route collection does not start with a basePath entry', 
   });
 });
 
-test('renders the Swagger logo when assets/img/logo.png exists', async () => {
+test('renders the Swagger logo when api-docs/logo.jpeg exists', async () => {
   await withTempProject(async () => {
-    fs.mkdirSync(path.join(process.cwd(), 'assets', 'img'), { recursive: true });
+    fs.mkdirSync(path.join(process.cwd(), 'api-docs'), { recursive: true });
     fs.writeFileSync(
-      path.join(process.cwd(), 'assets', 'img', 'logo.png'),
+      path.join(process.cwd(), 'api-docs', 'logo.jpeg'),
       Buffer.from(
-        '89504E470D0A1A0A0000000D49484452000000010000000108060000001F15C4890000000D49444154789C6360000002000154A24F5A0000000049454E44AE426082',
-        'hex'
+        '/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////2wBDAf//////////////////////////////////////////////////////////////////////////////////////wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAVEQEBAAAAAAAAAAAAAAAAAAAAAf/aAAwDAQACEAMQAAAB6gD/xAAUEAEAAAAAAAAAAAAAAAAAAAAQ/9oACAEBAAEFAqf/xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AYf/xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/AYf/xAAUEAEAAAAAAAAAAAAAAAAAAAAQ/9oACAEBAAY/An//xAAUEAEAAAAAAAAAAAAAAAAAAAAQ/9oACAEBAAE/IT//2gAMAwEAAgADAAAAEB//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/EH//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/EH//xAAUEAEAAAAAAAAAAAAAAAAAAAAQ/9oACAEBAAE/EH//2Q==',
+        'base64'
       )
     );
 
@@ -261,16 +261,16 @@ test('renders the Swagger logo when assets/img/logo.png exists', async () => {
 
     const docsUiResponse = await request(app).get('/api-docs/users');
     assert.equal(docsUiResponse.status, 200);
-    assert.match(docsUiResponse.text, /<link rel="icon" type="image\/png" href="\/api-docs\/logo\.png" \/>/);
-    assert.match(docsUiResponse.text, /<img class="docs-logo" src="\/api-docs\/logo\.png" alt="API logo" \/>/);
+    assert.match(docsUiResponse.text, /<link rel="icon" href="\/api-docs\/logo\.jpeg" \/>/);
+    assert.match(docsUiResponse.text, /<img class="docs-logo" src="\/api-docs\/logo\.jpeg" alt="API logo" \/>/);
 
     const docsIndexResponse = await request(app).get('/api-docs');
     assert.equal(docsIndexResponse.status, 200);
-    assert.match(docsIndexResponse.text, /<link rel="icon" type="image\/png" href="\/api-docs\/logo\.png" \/>/);
+    assert.match(docsIndexResponse.text, /<link rel="icon" href="\/api-docs\/logo\.jpeg" \/>/);
 
-    const logoResponse = await request(app).get('/api-docs/logo.png');
+    const logoResponse = await request(app).get('/api-docs/logo.jpeg');
     assert.equal(logoResponse.status, 200);
-    assert.match(logoResponse.headers['content-type'], /image\/png/);
+    assert.match(logoResponse.headers['content-type'], /image\/jpeg/);
   });
 });
 
