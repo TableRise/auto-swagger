@@ -50,7 +50,6 @@ export interface MiddlewareBinding {
   exclude: string[];
   middleware: Handler;
   mode: 'prepend' | 'append';
-  security?: SecurityRequirement[];
 }
 
 export interface RegistrationRecord extends NormalizedRegistration {

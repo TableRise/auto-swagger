@@ -8,7 +8,6 @@ import {
   AutoSwaggerConfig,
   BindMiddlewareOptions,
   ProvideRoutesOptions,
-  SecurityRequirement,
   routeInstance,
 } from '../types/publicTypes';
 import {
@@ -45,22 +44,6 @@ function normalizeDocsConfig(config: AutoSwaggerConfig = {}): NormalizedDocsConf
     title: docs.title ?? 'TableRise',
     version: docs.version ?? '1.0.0',
   };
-}
-
-function normalizeSecurityOption(value?: BindMiddlewareOptions['security']): SecurityRequirement[] | undefined {
-  if (!value) {
-    return undefined;
-  }
-
-  if (Array.isArray(value)) {
-    return value;
-  }
-
-  if (typeof value === 'string') {
-    return [{ [value]: [] }];
-  }
-
-  return undefined;
 }
 
 function normalizeBasePath(basePath: string): string {
@@ -138,7 +121,6 @@ export class AutoSwaggerRegistry {
       exclude: (options.exclude ?? []).map((value) => normalizeRelativePath(value)),
       middleware,
       mode: options.mode ?? 'append',
-      security: normalizeSecurityOption(options.security),
     };
 
     this.bindings.push(normalizedBinding);
@@ -179,15 +161,9 @@ export class AutoSwaggerRegistry {
   }
 
   private resolveRouteForDocs(route: NormalizedRoute): NormalizedRoute {
-    const matchingBindings = this.bindings.filter(
-      (binding) => binding.basePath === route.effectiveBasePath && !binding.exclude.includes(route.relativePath)
-    );
-
-    const bindingSecurity = [...matchingBindings].reverse().find((binding) => binding.security)?.security;
-
     return {
       ...route,
-      security: route.routeLevelSecurity ?? bindingSecurity,
+      security: route.routeLevelSecurity,
     };
   }
 

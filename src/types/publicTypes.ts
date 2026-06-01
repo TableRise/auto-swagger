@@ -52,7 +52,6 @@ export interface ProvideRoutesOptions {
 export interface BindMiddlewareOptions {
   exclude?: string[];
   mode?: 'prepend' | 'append';
-  security?: string | SecurityRequirement[];
 }
 
 export interface AutoSwaggerDocsConfig {

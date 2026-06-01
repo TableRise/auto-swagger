@@ -117,31 +117,37 @@ export function normalizeRouteCollection(
   options: ProvideRoutesOptions,
   docsConfig: NormalizedDocsConfig
 ): NormalizedRegistration {
+  const normalizedGroup = typeof options.group === 'string' ? options.group.trim() : '';
+
+  if (!normalizedGroup) {
+    throw new Error('provideRoutes(...) requires a non-empty group');
+  }
+
   if (!Array.isArray(entries) || entries.length === 0) {
-    throw new Error(`Route collection for group "${options.group}" can not be empty`);
+    throw new Error(`Route collection for group "${normalizedGroup}" can not be empty`);
   }
 
   const [firstEntry, ...routeEntries] = entries;
 
   if (!isCollectionDefinition(firstEntry)) {
-    throw new Error(`Route collection for group "${options.group}" must start with a { basePath: string } entry`);
+    throw new Error(`Route collection for group "${normalizedGroup}" must start with a { basePath: string } entry`);
   }
 
   const collectionBasePath = normalizeBasePath(firstEntry.basePath);
 
   if (routeEntries.length === 0) {
-    throw new Error(`Route collection for group "${options.group}" must include at least one route entry`);
+    throw new Error(`Route collection for group "${normalizedGroup}" must include at least one route entry`);
   }
 
   const routes = routeEntries.map((entry, index) => {
     const routeEntry = entry as RouteDefinition;
 
     if (!routeEntry.method) {
-      throw new Error(`Invalid route entry at index ${index + 1} for group "${options.group}"`);
+      throw new Error(`Invalid route entry at index ${index + 1} for group "${normalizedGroup}"`);
     }
 
     if (!routeEntry.path) {
-      throw new Error(`Route entry at index ${index + 1} for group "${options.group}" is missing a path`);
+      throw new Error(`Route entry at index ${index + 1} for group "${normalizedGroup}" is missing a path`);
     }
 
     const relativePath = normalizeRelativePath(routeEntry.path);
@@ -156,7 +162,7 @@ export function normalizeRouteCollection(
       description: optionsData.description,
       effectiveBasePath,
       fullPath: runtimePath,
-      group: options.group,
+      group: normalizedGroup,
       hide: routeEntry.hide ?? false,
       method: routeEntry.method,
       middlewares: optionsData.middlewares ?? [],
@@ -167,14 +173,14 @@ export function normalizeRouteCollection(
       requestContentType,
       routeLevelSecurity: normalizeSecurity(optionsData.security, optionsData.authentication, docsConfig),
       schemas,
-      tag: optionsData.tag ?? options.group,
+      tag: optionsData.tag ?? normalizedGroup,
       controller: routeEntry.controller,
     };
   });
 
   return {
     id,
-    group: options.group,
+    group: normalizedGroup,
     collectionBasePath,
     routes,
   };

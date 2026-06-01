@@ -37,6 +37,7 @@ function buildUsersRoutes() {
             next();
           },
         ],
+        security: 'cookieAuth',
         tag: 'users',
       },
     },
@@ -124,7 +125,7 @@ test('registers routes, writes grouped docs, and serves docs routes', async () =
         req.order = [...(req.order ?? []), 'append'];
         next();
       },
-      { exclude: ['/login'], mode: 'append', security: 'cookieAuth' }
+      { exclude: ['/login'], mode: 'append' }
     );
 
     const providedRoutes = swagger.provideRoutes(buildUsersRoutes(), { group: 'users' });
@@ -185,6 +186,30 @@ test('fails fast when a route collection does not start with a basePath entry', 
     );
 
     assert.throws(() => providedRoutes.register(), /must start with a \{ basePath: string \} entry/);
+  });
+});
+
+test('fails fast when group is missing or blank', async () => {
+  await withTempProject(async () => {
+    const swagger = createAutoSwagger();
+    const routes = [
+      { basePath: '/users' },
+      {
+        method: 'get',
+        path: '/profile',
+        controller: (_req, res) => res.json({ ok: true }),
+      },
+    ];
+
+    assert.throws(
+      () => swagger.provideRoutes(routes, {}).register(),
+      /provideRoutes\(\.\.\.\) requires a non-empty group/
+    );
+
+    assert.throws(
+      () => swagger.provideRoutes(routes, { group: '   ' }).register(),
+      /provideRoutes\(\.\.\.\) requires a non-empty group/
+    );
   });
 });
 
