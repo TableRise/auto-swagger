@@ -185,11 +185,23 @@ test('registers routes, writes grouped docs, and serves docs routes', async () =
     const docsIndexResponse = await request(app).get('/api-docs');
     assert.equal(docsIndexResponse.status, 200);
     assert.match(docsIndexResponse.text, /users/);
+    assert.match(docsIndexResponse.text, /docs\.css/);
+
+    const docsStylesResponse = await request(app).get('/api-docs/docs.css');
+    assert.equal(docsStylesResponse.status, 200);
+    assert.match(docsStylesResponse.headers['content-type'], /text\/css/);
+    assert.match(docsStylesResponse.text, /color-scheme:\s*dark/);
+    assert.match(docsStylesResponse.text, /--docs-bg:\s*#0a0f1f/);
+
+    const docsLogoResponse = await request(app).get('/api-docs/logo.png');
+    assert.equal(docsLogoResponse.status, 404);
 
     const docsUiResponse = await request(app).get('/api-docs/users');
     assert.equal(docsUiResponse.status, 200);
     assert.match(docsUiResponse.text, /swagger-ui/);
+    assert.match(docsUiResponse.text, /docs\.css/);
     assert.match(docsUiResponse.text, /swagger-initializer\.js/);
+    assert.doesNotMatch(docsUiResponse.text, /<img class="docs-logo"/);
     assert.doesNotMatch(docsUiResponse.text, /window\.onload = function/);
 
     const docsInitializerResponse = await request(app).get('/api-docs/users/swagger-initializer.js');
@@ -219,6 +231,39 @@ test('fails fast when a route collection does not start with a basePath entry', 
     );
 
     assert.throws(() => providedRoutes.register(), /must start with a \{ basePath: string \} entry/);
+  });
+});
+
+test('renders the Swagger logo when assets/img/logo.png exists', async () => {
+  await withTempProject(async () => {
+    fs.mkdirSync(path.join(process.cwd(), 'assets', 'img'), { recursive: true });
+    fs.writeFileSync(
+      path.join(process.cwd(), 'assets', 'img', 'logo.png'),
+      Buffer.from(
+        '89504E470D0A1A0A0000000D49484452000000010000000108060000001F15C4890000000D49444154789C6360000002000154A24F5A0000000049454E44AE426082',
+        'hex'
+      )
+    );
+
+    const swagger = createAutoSwagger({
+      docs: {
+        title: 'Branded API',
+      },
+    });
+
+    const router = swagger.provideRoutes(buildUsersRoutes(), { group: 'users' }).register();
+
+    const app = express();
+    app.use(router);
+    app.use(swagger.docs());
+
+    const docsUiResponse = await request(app).get('/api-docs/users');
+    assert.equal(docsUiResponse.status, 200);
+    assert.match(docsUiResponse.text, /<img class="docs-logo" src="\/api-docs\/logo\.png" alt="API logo" \/>/);
+
+    const logoResponse = await request(app).get('/api-docs/logo.png');
+    assert.equal(logoResponse.status, 200);
+    assert.match(logoResponse.headers['content-type'], /image\/png/);
   });
 });
 
