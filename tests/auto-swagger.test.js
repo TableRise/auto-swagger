@@ -189,6 +189,14 @@ test('registers routes, writes grouped docs, and serves docs routes', async () =
     const docsUiResponse = await request(app).get('/api-docs/users');
     assert.equal(docsUiResponse.status, 200);
     assert.match(docsUiResponse.text, /swagger-ui/);
+    assert.match(docsUiResponse.text, /swagger-initializer\.js/);
+    assert.doesNotMatch(docsUiResponse.text, /window\.onload = function/);
+
+    const docsInitializerResponse = await request(app).get('/api-docs/users/swagger-initializer.js');
+    assert.equal(docsInitializerResponse.status, 200);
+    assert.match(docsInitializerResponse.headers['content-type'], /application\/javascript/);
+    assert.match(docsInitializerResponse.text, /SwaggerUIBundle/);
+    assert.match(docsInitializerResponse.text, /\/api-docs\/users\/swagger\.json/);
 
     const docsJsonResponse = await request(app).get('/api-docs/users/swagger.json');
     assert.equal(docsJsonResponse.status, 200);

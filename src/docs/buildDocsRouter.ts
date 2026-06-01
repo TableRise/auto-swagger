@@ -30,8 +30,8 @@ function renderDocsIndex(title: string, mountPath: string, groups: string[]) {
 }
 
 function renderGroupPage(title: string, mountPath: string, group: string) {
-  const swaggerJsonUrl = `${mountPath}/${group}/swagger.json`;
   const assetsPath = `${mountPath}/assets`;
+  const initializerPath = `${mountPath}/${group}/swagger-initializer.js`;
 
   return `<!doctype html>
 <html lang="en">
@@ -49,19 +49,24 @@ function renderGroupPage(title: string, mountPath: string, group: string) {
     <div id="swagger-ui"></div>
     <script src="${assetsPath}/swagger-ui-bundle.js"></script>
     <script src="${assetsPath}/swagger-ui-standalone-preset.js"></script>
-    <script>
-      window.onload = function () {
-        window.ui = SwaggerUIBundle({
-          url: '${swaggerJsonUrl}',
-          dom_id: '#swagger-ui',
-          deepLinking: true,
-          presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
-          layout: 'BaseLayout'
-        });
-      };
-    </script>
+    <script src="${initializerPath}"></script>
   </body>
 </html>`;
+}
+
+function renderSwaggerInitializer(mountPath: string, group: string) {
+  const swaggerJsonUrl = `${mountPath}/${group}/swagger.json`;
+
+  return `window.addEventListener('load', function () {
+  window.ui = SwaggerUIBundle({
+    url: ${JSON.stringify(swaggerJsonUrl)},
+    dom_id: '#swagger-ui',
+    deepLinking: true,
+    presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+    layout: 'BaseLayout'
+  });
+});
+`;
 }
 
 export function buildDocsRouter(registry: AutoSwaggerRegistry): Router {
@@ -86,6 +91,19 @@ export function buildDocsRouter(registry: AutoSwaggerRegistry): Router {
 
     const filePath = registry.getDocFilePath(group);
     res.sendFile(path.resolve(filePath));
+  });
+
+  router.get(`${mountPath}/:group/swagger-initializer.js`, (req: Request, res: Response) => {
+    const group = req.params.group;
+
+    if (!registry.hasGroup(group)) {
+      res.status(404).type('text/plain').send(`Unknown Swagger group "${group}"`);
+      return;
+    }
+
+    res
+      .type('application/javascript')
+      .send(renderSwaggerInitializer(mountPath, group));
   });
 
   router.get(`${mountPath}/:group`, (req: Request, res: Response) => {
