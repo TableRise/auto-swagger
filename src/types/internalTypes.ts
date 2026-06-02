@@ -1,5 +1,6 @@
 import { Handler, Router } from 'express';
 import {
+  AutoSwaggerDocsTheme,
   HttpMethod,
   RouteSchemas,
   SecurityRequirement,
@@ -13,6 +14,7 @@ export interface NormalizedDocsConfig {
   outputDir: string;
   securitySchemes: Record<string, unknown>;
   servers: { url: string }[];
+  theme: AutoSwaggerDocsTheme;
   title: string;
   version: string;
 }

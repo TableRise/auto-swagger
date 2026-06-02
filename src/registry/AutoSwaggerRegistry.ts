@@ -42,6 +42,7 @@ function normalizeDocsConfig(config: AutoSwaggerConfig = {}): NormalizedDocsConf
     outputDir: path.resolve(process.cwd(), outputDir),
     securitySchemes: docs.securitySchemes ?? {},
     servers: resolvedServers,
+    theme: docs.theme ?? 'default',
     title: docs.title ?? 'TableRise',
     version: docs.version ?? '1.0.0',
   };

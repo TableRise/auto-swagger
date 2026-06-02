@@ -209,7 +209,7 @@ test('registers routes, writes grouped docs, and serves docs routes', async () =
     assert.equal(docsStylesResponse.status, 200);
     assert.match(docsStylesResponse.headers['content-type'], /text\/css/);
     assert.match(docsStylesResponse.text, /color-scheme:\s*dark/);
-    assert.match(docsStylesResponse.text, /--docs-bg:\s*#0a0f1f/);
+    assert.match(docsStylesResponse.text, /--docs-bg:\s*#0d1427/);
     assert.match(docsStylesResponse.text, /\.swagger-ui \.information-container\s*\{\s*display:\s*none;/);
     assert.match(docsStylesResponse.text, /\.swagger-ui \.information-container,\s*\.swagger-ui \.scheme-container[\s\S]*background:\s*transparent !important/);
     assert.match(docsStylesResponse.text, /\.swagger-ui \.opblock \.opblock-summary-method\s*\{[\s\S]*font-size:\s*11px/);
@@ -218,10 +218,14 @@ test('registers routes, writes grouped docs, and serves docs routes', async () =
     assert.match(docsStylesResponse.text, /@container swagger-ui \(max-width: 768px\)\s*\{[\s\S]*\.swagger-ui \.opblock \.opblock-summary-path,\s*\.swagger-ui \.opblock \.opblock-summary-path__deprecated\s*\{[\s\S]*font-size:\s*9px/);
     assert.match(docsStylesResponse.text, /\.swagger-ui \.opblock-tag,\s*\.swagger-ui \.opblock \.opblock-summary-path[\s\S]*color:\s*var\(--docs-text\) !important/);
     assert.match(docsStylesResponse.text, /\.swagger-ui \.opblock-body,\s*\.swagger-ui \.opblock-body p[\s\S]*color:\s*var\(--docs-text\) !important/);
-    assert.match(docsStylesResponse.text, /\.swagger-ui \.opblock\.opblock-get \.responses-inner[\s\S]*background:\s*rgba\(18, 31, 61, 0\.92\) !important/);
-    assert.match(docsStylesResponse.text, /\.swagger-ui \.opblock\.opblock-delete \.responses-inner[\s\S]*background:\s*rgba\(61, 18, 28, 0\.92\) !important/);
-    assert.match(docsStylesResponse.text, /\.swagger-ui \.highlight-code,\s*\.swagger-ui \.highlight-code pre[\s\S]*background:\s*rgba\(5, 10, 20, 0\.96\) !important/);
-    assert.match(docsStylesResponse.text, /\.swagger-ui \.opblock-body select:not\(:disabled\),[\s\S]*box-shadow:\s*0 0 0 1px rgba\(138, 162, 255, 0\.14\)/);
+    assert.match(docsStylesResponse.text, /--docs-method-get-responses:\s*rgba\(18, 31, 61, 0\.92\)/);
+    assert.match(docsStylesResponse.text, /\.swagger-ui \.opblock\.opblock-get \.responses-inner[\s\S]*background:\s*var\(--docs-method-get-responses\) !important/);
+    assert.match(docsStylesResponse.text, /--docs-method-delete-responses:\s*rgba\(61, 18, 28, 0\.92\)/);
+    assert.match(docsStylesResponse.text, /\.swagger-ui \.opblock\.opblock-delete \.responses-inner[\s\S]*background:\s*var\(--docs-method-delete-responses\) !important/);
+    assert.match(docsStylesResponse.text, /--docs-example-bg:\s*rgba\(5, 10, 20, 0\.96\)/);
+    assert.match(docsStylesResponse.text, /\.swagger-ui \.highlight-code,\s*\.swagger-ui \.highlight-code pre[\s\S]*background:\s*var\(--docs-example-bg\) !important/);
+    assert.match(docsStylesResponse.text, /--docs-input-ring:\s*rgba\(138, 162, 255, 0\.14\)/);
+    assert.match(docsStylesResponse.text, /\.swagger-ui \.opblock-body select:not\(:disabled\),[\s\S]*box-shadow:\s*0 0 0 1px var\(--docs-input-ring\)/);
 
     const docsLogoResponse = await request(app).get('/api-docs/logo.png');
     assert.equal(docsLogoResponse.status, 404);
@@ -303,6 +307,71 @@ test('renders the Swagger logo when api-docs/logo.jpeg exists', async () => {
     const logoResponse = await request(app).get('/api-docs/logo.jpeg');
     assert.equal(logoResponse.status, 200);
     assert.match(logoResponse.headers['content-type'], /image\/jpeg/);
+  });
+});
+
+test('serves alternate docs themes from createAutoSwagger config', async () => {
+  await withTempProject(async () => {
+    const themeExpectations = [
+      {
+        theme: 'white',
+        checks: [
+          /color-scheme:\s*light/,
+          /--docs-bg:\s*#ffffff/,
+          /--docs-text:\s*#223049/,
+          /--docs-hero-radial:\s*rgba\(120, 145, 232, 0\.18\)/,
+        ],
+      },
+      {
+        theme: 'orange',
+        checks: [
+          /color-scheme:\s*dark/,
+          /--docs-bg:\s*#1c1008/,
+          /--docs-text:\s*#fff1e1/,
+          /--docs-hero-radial:\s*rgba\(255, 140, 52, 0\.2\)/,
+        ],
+      },
+      {
+        theme: 'green',
+        checks: [
+          /color-scheme:\s*dark/,
+          /--docs-bg:\s*#0b1711/,
+          /--docs-text:\s*#ecfff2/,
+          /--docs-hero-radial:\s*rgba\(72, 208, 137, 0\.18\)/,
+        ],
+      },
+      {
+        theme: 'purple',
+        checks: [
+          /color-scheme:\s*dark/,
+          /--docs-bg:\s*#141020/,
+          /--docs-text:\s*#f3edff/,
+          /--docs-hero-radial:\s*rgba\(152, 108, 255, 0\.2\)/,
+        ],
+      },
+    ];
+
+    for (const { theme, checks } of themeExpectations) {
+      const swagger = createAutoSwagger({
+        docs: {
+          theme,
+          title: 'Theme Test API',
+        },
+      });
+
+      const router = swagger.provideRoutes(buildUsersRoutes(), { group: theme }).register();
+
+      const app = express();
+      app.use(router);
+      app.use(swagger.docs());
+
+      const docsStylesResponse = await request(app).get('/api-docs/docs.css');
+      assert.equal(docsStylesResponse.status, 200);
+
+      for (const check of checks) {
+        assert.match(docsStylesResponse.text, check);
+      }
+    }
   });
 });
 

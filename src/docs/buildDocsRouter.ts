@@ -42,7 +42,7 @@ export function buildDocsRouter(registry: AutoSwaggerRegistry): Router {
   });
 
   router.get(`${mountPath}/docs.css`, (_req: Request, res: Response) => {
-    res.type('text/css').send(renderDocsStylesheet());
+    res.type('text/css').send(renderDocsStylesheet(docsConfig.theme));
   });
 
   router.get(`${mountPath}/logo.:extension`, (req: Request, res: Response) => {

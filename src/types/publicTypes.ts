@@ -4,6 +4,7 @@ import { ZodTypeAny } from 'zod';
 export type HttpMethod = 'get' | 'post' | 'put' | 'patch' | 'delete' | 'options' | 'head';
 export type OpenApiPrimitiveType = 'string' | 'number' | 'integer' | 'boolean';
 export type SecurityRequirement = Record<string, string[]>;
+export type AutoSwaggerDocsTheme = 'default' | 'white' | 'orange' | 'green' | 'purple';
 
 export interface RouteSchemas {
   body?: ZodTypeAny;
@@ -53,6 +54,7 @@ export interface AutoSwaggerDocsConfig {
   outputDir?: string;
   securitySchemes?: Record<string, unknown>;
   servers?: Array<string | { url: string }>;
+  theme?: AutoSwaggerDocsTheme;
   title?: string;
   version?: string;
 }

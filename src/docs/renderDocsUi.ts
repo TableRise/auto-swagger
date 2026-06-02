@@ -1,19 +1,283 @@
-export function renderDocsStylesheet() {
-  return `:root {
-  color-scheme: dark;
-  --docs-bg: #0a0f1f;
-  --docs-bg-accent: #121a31;
-  --docs-surface: rgba(11, 18, 37, 0.88);
-  --docs-surface-strong: rgba(16, 24, 46, 0.96);
-  --docs-border: rgba(138, 162, 255, 0.18);
-  --docs-border-strong: rgba(138, 162, 255, 0.32);
-  --docs-text: #edf2ff;
-  --docs-text-muted: #aebad6;
-  --docs-link: #8fb4ff;
-  --docs-link-strong: #bfd3ff;
-  --docs-shadow: 0 24px 60px rgba(0, 0, 0, 0.38);
-  --docs-radius: 22px;
+import { AutoSwaggerDocsTheme } from '../types/publicTypes';
+
+interface DocsThemePalette {
+  badgeAccentBg: string;
+  badgeAccentText: string;
+  badgeNeutralBg: string;
+  badgeNeutralText: string;
+  bgAccent: string;
+  bgEnd: string;
+  bgStart: string;
+  border: string;
+  borderStrong: string;
+  colorScheme: 'dark' | 'light';
+  dialogBackdrop: string;
+  docsShadow: string;
+  exampleBg: string;
+  executeBg: string;
+  executeText: string;
+  heroRadial: string;
+  inputBg: string;
+  inputBgActive: string;
+  inputFocusRing: string;
+  inputSurfaceShadow: string;
+  link: string;
+  linkStrong: string;
+  methodDeleteBorder: string;
+  methodDeleteResponses: string;
+  methodGetBorder: string;
+  methodGetResponses: string;
+  methodPatchBorder: string;
+  methodPatchResponses: string;
+  methodPostBorder: string;
+  methodPostResponses: string;
+  methodPutBorder: string;
+  methodPutResponses: string;
+  surface: string;
+  surfaceStrong: string;
+  text: string;
+  textMuted: string;
 }
+
+const docsThemePalettes: Record<AutoSwaggerDocsTheme, DocsThemePalette> = {
+  default: {
+    badgeAccentBg: '#a6d400',
+    badgeAccentText: '#233000',
+    badgeNeutralBg: 'rgba(214, 220, 235, 0.86)',
+    badgeNeutralText: '#3f4a66',
+    bgAccent: '#121a31',
+    bgEnd: '#070b16',
+    bgStart: '#0d1427',
+    border: 'rgba(138, 162, 255, 0.18)',
+    borderStrong: 'rgba(138, 162, 255, 0.32)',
+    colorScheme: 'dark',
+    dialogBackdrop: 'rgba(4, 8, 16, 0.72)',
+    docsShadow: '0 24px 60px rgba(0, 0, 0, 0.38)',
+    exampleBg: 'rgba(5, 10, 20, 0.96)',
+    executeBg: '#315efb',
+    executeText: '#f8fbff',
+    heroRadial: 'rgba(76, 120, 255, 0.18)',
+    inputBg: 'rgba(8, 13, 27, 0.95)',
+    inputBgActive: 'rgba(4, 9, 18, 0.98)',
+    inputFocusRing: 'rgba(237, 242, 255, 0.22)',
+    inputSurfaceShadow: 'rgba(138, 162, 255, 0.14)',
+    link: '#8fb4ff',
+    linkStrong: '#bfd3ff',
+    methodDeleteBorder: 'rgba(255, 108, 108, 0.38)',
+    methodDeleteResponses: 'rgba(61, 18, 28, 0.92)',
+    methodGetBorder: 'rgba(80, 191, 255, 0.42)',
+    methodGetResponses: 'rgba(18, 31, 61, 0.92)',
+    methodPatchBorder: 'rgba(255, 181, 72, 0.38)',
+    methodPatchResponses: 'rgba(61, 39, 15, 0.92)',
+    methodPostBorder: 'rgba(61, 220, 151, 0.36)',
+    methodPostResponses: 'rgba(15, 44, 35, 0.92)',
+    methodPutBorder: 'rgba(255, 181, 72, 0.38)',
+    methodPutResponses: 'rgba(61, 39, 15, 0.92)',
+    surface: 'rgba(11, 18, 37, 0.88)',
+    surfaceStrong: 'rgba(16, 24, 46, 0.96)',
+    text: '#edf2ff',
+    textMuted: '#aebad6',
+  },
+  white: {
+    badgeAccentBg: '#d9e5ff',
+    badgeAccentText: '#2443a6',
+    badgeNeutralBg: 'rgba(49, 66, 122, 0.12)',
+    badgeNeutralText: '#334567',
+    bgAccent: '#edf3ff',
+    bgEnd: '#eef3ff',
+    bgStart: '#ffffff',
+    border: 'rgba(73, 94, 160, 0.16)',
+    borderStrong: 'rgba(73, 94, 160, 0.3)',
+    colorScheme: 'light',
+    dialogBackdrop: 'rgba(24, 36, 64, 0.28)',
+    docsShadow: '0 24px 60px rgba(47, 63, 110, 0.18)',
+    exampleBg: 'rgba(233, 238, 249, 0.98)',
+    executeBg: '#315efb',
+    executeText: '#f8fbff',
+    heroRadial: 'rgba(120, 145, 232, 0.18)',
+    inputBg: 'rgba(241, 245, 255, 0.96)',
+    inputBgActive: 'rgba(255, 255, 255, 0.98)',
+    inputFocusRing: 'rgba(35, 48, 73, 0.18)',
+    inputSurfaceShadow: 'rgba(73, 94, 160, 0.1)',
+    link: '#4163d7',
+    linkStrong: '#2b49b8',
+    methodDeleteBorder: 'rgba(214, 84, 84, 0.3)',
+    methodDeleteResponses: 'rgba(255, 233, 236, 0.96)',
+    methodGetBorder: 'rgba(71, 140, 237, 0.34)',
+    methodGetResponses: 'rgba(231, 241, 255, 0.96)',
+    methodPatchBorder: 'rgba(232, 158, 44, 0.34)',
+    methodPatchResponses: 'rgba(255, 244, 227, 0.96)',
+    methodPostBorder: 'rgba(54, 179, 121, 0.3)',
+    methodPostResponses: 'rgba(232, 249, 240, 0.96)',
+    methodPutBorder: 'rgba(232, 158, 44, 0.34)',
+    methodPutResponses: 'rgba(255, 244, 227, 0.96)',
+    surface: 'rgba(255, 255, 255, 0.88)',
+    surfaceStrong: 'rgba(255, 255, 255, 0.96)',
+    text: '#223049',
+    textMuted: '#637290',
+  },
+  orange: {
+    badgeAccentBg: '#ffb25b',
+    badgeAccentText: '#4a2200',
+    badgeNeutralBg: 'rgba(255, 225, 196, 0.18)',
+    badgeNeutralText: '#ffd8b0',
+    bgAccent: '#29160b',
+    bgEnd: '#130a04',
+    bgStart: '#1c1008',
+    border: 'rgba(255, 178, 91, 0.2)',
+    borderStrong: 'rgba(255, 178, 91, 0.34)',
+    colorScheme: 'dark',
+    dialogBackdrop: 'rgba(17, 9, 4, 0.76)',
+    docsShadow: '0 24px 60px rgba(0, 0, 0, 0.42)',
+    exampleBg: 'rgba(21, 11, 4, 0.97)',
+    executeBg: '#ff9c38',
+    executeText: '#271100',
+    heroRadial: 'rgba(255, 140, 52, 0.2)',
+    inputBg: 'rgba(22, 12, 4, 0.95)',
+    inputBgActive: 'rgba(17, 9, 3, 0.98)',
+    inputFocusRing: 'rgba(255, 220, 189, 0.18)',
+    inputSurfaceShadow: 'rgba(255, 178, 91, 0.16)',
+    link: '#ffbf78',
+    linkStrong: '#ffd6a6',
+    methodDeleteBorder: 'rgba(255, 112, 112, 0.36)',
+    methodDeleteResponses: 'rgba(66, 22, 27, 0.92)',
+    methodGetBorder: 'rgba(105, 183, 255, 0.4)',
+    methodGetResponses: 'rgba(22, 34, 64, 0.92)',
+    methodPatchBorder: 'rgba(255, 196, 92, 0.42)',
+    methodPatchResponses: 'rgba(67, 41, 12, 0.92)',
+    methodPostBorder: 'rgba(81, 224, 162, 0.36)',
+    methodPostResponses: 'rgba(16, 44, 35, 0.92)',
+    methodPutBorder: 'rgba(255, 196, 92, 0.42)',
+    methodPutResponses: 'rgba(67, 41, 12, 0.92)',
+    surface: 'rgba(30, 17, 8, 0.88)',
+    surfaceStrong: 'rgba(38, 21, 10, 0.96)',
+    text: '#fff1e1',
+    textMuted: '#dcb899',
+  },
+  green: {
+    badgeAccentBg: '#8ae6a7',
+    badgeAccentText: '#143a1e',
+    badgeNeutralBg: 'rgba(191, 239, 206, 0.18)',
+    badgeNeutralText: '#d5f6df',
+    bgAccent: '#102219',
+    bgEnd: '#07110c',
+    bgStart: '#0b1711',
+    border: 'rgba(118, 224, 162, 0.18)',
+    borderStrong: 'rgba(118, 224, 162, 0.32)',
+    colorScheme: 'dark',
+    dialogBackdrop: 'rgba(4, 12, 8, 0.74)',
+    docsShadow: '0 24px 60px rgba(0, 0, 0, 0.4)',
+    exampleBg: 'rgba(6, 15, 10, 0.97)',
+    executeBg: '#52d58b',
+    executeText: '#062111',
+    heroRadial: 'rgba(72, 208, 137, 0.18)',
+    inputBg: 'rgba(8, 18, 13, 0.95)',
+    inputBgActive: 'rgba(5, 13, 9, 0.98)',
+    inputFocusRing: 'rgba(220, 252, 231, 0.18)',
+    inputSurfaceShadow: 'rgba(118, 224, 162, 0.14)',
+    link: '#8ef0b0',
+    linkStrong: '#bef8d0',
+    methodDeleteBorder: 'rgba(255, 116, 126, 0.34)',
+    methodDeleteResponses: 'rgba(58, 20, 31, 0.92)',
+    methodGetBorder: 'rgba(96, 186, 255, 0.38)',
+    methodGetResponses: 'rgba(16, 32, 60, 0.92)',
+    methodPatchBorder: 'rgba(239, 200, 97, 0.38)',
+    methodPatchResponses: 'rgba(63, 43, 14, 0.92)',
+    methodPostBorder: 'rgba(82, 226, 150, 0.38)',
+    methodPostResponses: 'rgba(15, 48, 34, 0.92)',
+    methodPutBorder: 'rgba(239, 200, 97, 0.38)',
+    methodPutResponses: 'rgba(63, 43, 14, 0.92)',
+    surface: 'rgba(10, 22, 16, 0.88)',
+    surfaceStrong: 'rgba(13, 28, 20, 0.96)',
+    text: '#ecfff2',
+    textMuted: '#a8d8b7',
+  },
+  purple: {
+    badgeAccentBg: '#c18cff',
+    badgeAccentText: '#2d114d',
+    badgeNeutralBg: 'rgba(227, 212, 255, 0.18)',
+    badgeNeutralText: '#eadfff',
+    bgAccent: '#1e1530',
+    bgEnd: '#0b0814',
+    bgStart: '#141020',
+    border: 'rgba(181, 141, 255, 0.2)',
+    borderStrong: 'rgba(181, 141, 255, 0.34)',
+    colorScheme: 'dark',
+    dialogBackdrop: 'rgba(9, 6, 18, 0.76)',
+    docsShadow: '0 24px 60px rgba(0, 0, 0, 0.42)',
+    exampleBg: 'rgba(11, 8, 21, 0.97)',
+    executeBg: '#9d72ff',
+    executeText: '#140925',
+    heroRadial: 'rgba(152, 108, 255, 0.2)',
+    inputBg: 'rgba(13, 10, 24, 0.95)',
+    inputBgActive: 'rgba(9, 7, 18, 0.98)',
+    inputFocusRing: 'rgba(239, 233, 255, 0.18)',
+    inputSurfaceShadow: 'rgba(181, 141, 255, 0.16)',
+    link: '#b99cff',
+    linkStrong: '#d3c1ff',
+    methodDeleteBorder: 'rgba(255, 114, 131, 0.34)',
+    methodDeleteResponses: 'rgba(59, 18, 36, 0.92)',
+    methodGetBorder: 'rgba(100, 182, 255, 0.38)',
+    methodGetResponses: 'rgba(17, 30, 63, 0.92)',
+    methodPatchBorder: 'rgba(242, 192, 98, 0.38)',
+    methodPatchResponses: 'rgba(64, 42, 15, 0.92)',
+    methodPostBorder: 'rgba(86, 224, 165, 0.36)',
+    methodPostResponses: 'rgba(16, 45, 38, 0.92)',
+    methodPutBorder: 'rgba(242, 192, 98, 0.38)',
+    methodPutResponses: 'rgba(64, 42, 15, 0.92)',
+    surface: 'rgba(19, 14, 33, 0.88)',
+    surfaceStrong: 'rgba(24, 18, 42, 0.96)',
+    text: '#f3edff',
+    textMuted: '#c4b6e4',
+  },
+};
+
+function renderThemeVariables(theme: AutoSwaggerDocsTheme) {
+  const palette = docsThemePalettes[theme];
+
+  return `:root {
+  color-scheme: ${palette.colorScheme};
+  --docs-bg: ${palette.bgStart};
+  --docs-bg-accent: ${palette.bgAccent};
+  --docs-bg-end: ${palette.bgEnd};
+  --docs-surface: ${palette.surface};
+  --docs-surface-strong: ${palette.surfaceStrong};
+  --docs-border: ${palette.border};
+  --docs-border-strong: ${palette.borderStrong};
+  --docs-text: ${palette.text};
+  --docs-text-muted: ${palette.textMuted};
+  --docs-link: ${palette.link};
+  --docs-link-strong: ${palette.linkStrong};
+  --docs-shadow: ${palette.docsShadow};
+  --docs-radius: 22px;
+  --docs-hero-radial: ${palette.heroRadial};
+  --docs-badge-neutral-bg: ${palette.badgeNeutralBg};
+  --docs-badge-neutral-text: ${palette.badgeNeutralText};
+  --docs-badge-accent-bg: ${palette.badgeAccentBg};
+  --docs-badge-accent-text: ${palette.badgeAccentText};
+  --docs-dialog-backdrop: ${palette.dialogBackdrop};
+  --docs-input-bg: ${palette.inputBg};
+  --docs-input-bg-active: ${palette.inputBgActive};
+  --docs-input-ring: ${palette.inputSurfaceShadow};
+  --docs-input-focus-ring: ${palette.inputFocusRing};
+  --docs-example-bg: ${palette.exampleBg};
+  --docs-execute-bg: ${palette.executeBg};
+  --docs-execute-text: ${palette.executeText};
+  --docs-method-get-border: ${palette.methodGetBorder};
+  --docs-method-post-border: ${palette.methodPostBorder};
+  --docs-method-put-border: ${palette.methodPutBorder};
+  --docs-method-patch-border: ${palette.methodPatchBorder};
+  --docs-method-delete-border: ${palette.methodDeleteBorder};
+  --docs-method-get-responses: ${palette.methodGetResponses};
+  --docs-method-post-responses: ${palette.methodPostResponses};
+  --docs-method-put-responses: ${palette.methodPutResponses};
+  --docs-method-patch-responses: ${palette.methodPatchResponses};
+  --docs-method-delete-responses: ${palette.methodDeleteResponses};
+}`;
+}
+
+export function renderDocsStylesheet(theme: AutoSwaggerDocsTheme = 'default') {
+  return `${renderThemeVariables(theme)}
 
 * {
   box-sizing: border-box;
@@ -22,8 +286,8 @@ export function renderDocsStylesheet() {
 html {
   min-height: 100%;
   background:
-    radial-gradient(circle at top, rgba(76, 120, 255, 0.18), transparent 32rem),
-    linear-gradient(180deg, #0d1427 0%, #070b16 100%);
+    radial-gradient(circle at top, var(--docs-hero-radial), transparent 32rem),
+    linear-gradient(180deg, var(--docs-bg) 0%, var(--docs-bg-end) 100%);
 }
 
 body {
@@ -98,13 +362,13 @@ a {
 }
 
 .docs-badge-neutral {
-  background: rgba(214, 220, 235, 0.86);
-  color: #3f4a66;
+  background: var(--docs-badge-neutral-bg);
+  color: var(--docs-badge-neutral-text);
 }
 
 .docs-badge-accent {
-  background: #a6d400;
-  color: #233000;
+  background: var(--docs-badge-accent-bg);
+  color: var(--docs-badge-accent-text);
 }
 
 .docs-logo {
@@ -139,7 +403,7 @@ a {
   border: 1px solid var(--docs-border-strong);
   border-radius: 999px;
   color: var(--docs-link-strong);
-  background: rgba(16, 24, 46, 0.72);
+  background: var(--docs-surface-strong);
   text-decoration: none;
 }
 
@@ -220,6 +484,8 @@ a {
 .swagger-ui .model-box,
 .swagger-ui section.models,
 .swagger-ui .dialog-ux .modal-ux,
+.swagger-ui .dialog-ux .modal-ux-header,
+.swagger-ui .dialog-ux .modal-ux-content,
 .swagger-ui .response-col_description__inner div.markdown,
 .swagger-ui .response-col_description__inner div.renderedMarkdown {
   background: var(--docs-surface-strong);
@@ -229,7 +495,8 @@ a {
 
 .swagger-ui .scheme-container,
 .swagger-ui .information-container,
-.swagger-ui section.models {
+.swagger-ui section.models,
+.swagger-ui .dialog-ux .modal-ux {
   box-shadow: none;
   border-radius: 18px;
 }
@@ -246,6 +513,35 @@ a {
 .swagger-ui .information-container,
 .swagger-ui .scheme-container {
   border: 0;
+}
+
+.swagger-ui .dialog-ux {
+  background: var(--docs-dialog-backdrop);
+}
+
+.swagger-ui .dialog-ux .modal-ux {
+  border: 1px solid var(--docs-border);
+  box-shadow: var(--docs-shadow);
+}
+
+.swagger-ui .dialog-ux .modal-ux-header {
+  border-bottom: 1px solid var(--docs-border);
+}
+
+.swagger-ui .dialog-ux .modal-ux-header .close-modal {
+  color: var(--docs-text);
+}
+
+.swagger-ui .dialog-ux .modal-ux-header .close-modal svg {
+  fill: var(--docs-text);
+}
+
+.swagger-ui .dialog-ux .auth-container {
+  border-color: var(--docs-border);
+}
+
+.swagger-ui .dialog-ux .auth-btn-wrapper {
+  padding-top: 0.75rem;
 }
 
 .swagger-ui .info .title,
@@ -370,12 +666,31 @@ a {
 .swagger-ui .model-example pre,
 .swagger-ui .example,
 .swagger-ui .example textarea {
-  background: rgba(5, 10, 20, 0.96) !important;
+  background: var(--docs-example-bg) !important;
   border-radius: 14px;
+}
+
+.swagger-ui .highlight-code,
+.swagger-ui .model-example,
+.swagger-ui .example {
+  padding: 1rem !important;
+}
+
+.swagger-ui .highlight-code pre,
+.swagger-ui .microlight,
+.swagger-ui pre.microlight,
+.swagger-ui .model-example pre,
+.swagger-ui .example textarea {
+  margin: 0;
+  padding: 0 !important;
 }
 
 .swagger-ui .opblock-section-header {
   box-shadow: none;
+}
+
+.swagger-ui .opblock-tag {
+  background: transparent !important;
 }
 
 .swagger-ui .opblock-section-header h4,
@@ -451,7 +766,7 @@ a {
 .swagger-ui textarea {
   border-radius: 12px;
   border-color: var(--docs-border-strong);
-  background: rgba(8, 13, 27, 0.95);
+  background: var(--docs-input-bg);
   color: var(--docs-text);
 }
 
@@ -470,7 +785,7 @@ a {
 .swagger-ui .opblock-body input[type=url],
 .swagger-ui .opblock-body input[type=tel],
 .swagger-ui .opblock-body textarea {
-  background: rgba(8, 13, 27, 0.95) !important;
+  background: var(--docs-input-bg) !important;
   color: var(--docs-text) !important;
   border-color: var(--docs-border-strong) !important;
   caret-color: var(--docs-text);
@@ -486,8 +801,8 @@ a {
 .swagger-ui .opblock-body input[type=url]:not(:disabled),
 .swagger-ui .opblock-body input[type=tel]:not(:disabled),
 .swagger-ui .opblock-body textarea:not(:disabled) {
-  background: rgba(4, 9, 18, 0.98) !important;
-  box-shadow: 0 0 0 1px rgba(138, 162, 255, 0.14);
+  background: var(--docs-input-bg-active) !important;
+  box-shadow: 0 0 0 1px var(--docs-input-ring);
 }
 
 .swagger-ui .opblock-body select:not(:disabled):focus,
@@ -501,7 +816,7 @@ a {
 .swagger-ui .opblock-body input[type=tel]:not(:disabled):focus,
 .swagger-ui .opblock-body textarea:not(:disabled):focus {
   border-color: var(--docs-text) !important;
-  box-shadow: 0 0 0 1px rgba(237, 242, 255, 0.22);
+  box-shadow: 0 0 0 1px var(--docs-input-focus-ring);
   outline: none;
 }
 
@@ -510,69 +825,135 @@ a {
   color: var(--docs-text);
 }
 
+.swagger-ui .dialog-ux .modal-ux .btn {
+  background: rgba(8, 13, 27, 0.95);
+  color: var(--docs-text);
+  border-color: var(--docs-border-strong);
+}
+
+.swagger-ui .dialog-ux .modal-ux .btn.authorize {
+  border-color: #4bd59c;
+  color: #4bd59c;
+}
+
+.swagger-ui .dialog-ux .modal-ux .btn.modal-btn {
+  border-color: var(--docs-border-strong);
+  color: var(--docs-text);
+}
+
+.swagger-ui .dialog-ux .modal-ux input[type=text],
+.swagger-ui .dialog-ux .modal-ux input[type=password],
+.swagger-ui .dialog-ux .modal-ux input[type=search],
+.swagger-ui .dialog-ux .modal-ux input[type=email],
+.swagger-ui .dialog-ux .modal-ux textarea {
+  background: var(--docs-input-bg-active) !important;
+  color: var(--docs-text) !important;
+  border-color: var(--docs-border-strong) !important;
+}
+
 .swagger-ui select option {
   color: var(--docs-text);
-  background: #08111f;
+  background: var(--docs-input-bg-active);
 }
 
 .swagger-ui .btn.execute {
-  background: #315efb;
-  border-color: #315efb;
-  color: #f8fbff;
+  background: var(--docs-execute-bg);
+  border-color: var(--docs-execute-bg);
+  color: var(--docs-execute-text);
 }
 
 .swagger-ui .opblock.opblock-get {
-  border-color: rgba(80, 191, 255, 0.42);
+  border-color: var(--docs-method-get-border);
 }
 
 .swagger-ui .opblock.opblock-get .responses-inner,
 .swagger-ui .opblock.opblock-get .responses-table,
 .swagger-ui .opblock.opblock-get .responses-inner > div,
+.swagger-ui .opblock.opblock-get .responses-inner table,
+.swagger-ui .opblock.opblock-get .responses-inner tbody,
+.swagger-ui .opblock.opblock-get .responses-inner tr {
+  background: var(--docs-method-get-responses) !important;
+}
+
 .swagger-ui .opblock.opblock-get .responses-inner td,
 .swagger-ui .opblock.opblock-get .responses-inner th {
-  background: rgba(18, 31, 61, 0.92) !important;
+  background: transparent !important;
 }
 
 .swagger-ui .opblock.opblock-post {
-  border-color: rgba(61, 220, 151, 0.36);
+  border-color: var(--docs-method-post-border);
 }
 
 .swagger-ui .opblock.opblock-post .responses-inner,
 .swagger-ui .opblock.opblock-post .responses-table,
 .swagger-ui .opblock.opblock-post .responses-inner > div,
+.swagger-ui .opblock.opblock-post .responses-inner table,
+.swagger-ui .opblock.opblock-post .responses-inner tbody,
+.swagger-ui .opblock.opblock-post .responses-inner tr {
+  background: var(--docs-method-post-responses) !important;
+}
+
 .swagger-ui .opblock.opblock-post .responses-inner td,
 .swagger-ui .opblock.opblock-post .responses-inner th {
-  background: rgba(15, 44, 35, 0.92) !important;
+  background: transparent !important;
 }
 
 .swagger-ui .opblock.opblock-put,
 .swagger-ui .opblock.opblock-patch {
-  border-color: rgba(255, 181, 72, 0.38);
+  border-color: var(--docs-method-put-border);
+}
+
+.swagger-ui .opblock.opblock-patch {
+  border-color: var(--docs-method-patch-border);
 }
 
 .swagger-ui .opblock.opblock-put .responses-inner,
 .swagger-ui .opblock.opblock-put .responses-table,
 .swagger-ui .opblock.opblock-put .responses-inner > div,
-.swagger-ui .opblock.opblock-put .responses-inner td,
-.swagger-ui .opblock.opblock-put .responses-inner th,
+.swagger-ui .opblock.opblock-put .responses-inner table,
+.swagger-ui .opblock.opblock-put .responses-inner tbody,
+.swagger-ui .opblock.opblock-put .responses-inner tr,
 .swagger-ui .opblock.opblock-patch .responses-inner,
 .swagger-ui .opblock.opblock-patch .responses-table,
 .swagger-ui .opblock.opblock-patch .responses-inner > div,
+.swagger-ui .opblock.opblock-patch .responses-inner table,
+.swagger-ui .opblock.opblock-patch .responses-inner tbody,
+.swagger-ui .opblock.opblock-patch .responses-inner tr {
+  background: var(--docs-method-put-responses) !important;
+}
+
+.swagger-ui .opblock.opblock-put .responses-inner td,
+.swagger-ui .opblock.opblock-put .responses-inner th,
 .swagger-ui .opblock.opblock-patch .responses-inner td,
 .swagger-ui .opblock.opblock-patch .responses-inner th {
-  background: rgba(61, 39, 15, 0.92) !important;
+  background: transparent !important;
+}
+
+.swagger-ui .opblock.opblock-patch .responses-inner,
+.swagger-ui .opblock.opblock-patch .responses-table,
+.swagger-ui .opblock.opblock-patch .responses-inner > div,
+.swagger-ui .opblock.opblock-patch .responses-inner table,
+.swagger-ui .opblock.opblock-patch .responses-inner tbody,
+.swagger-ui .opblock.opblock-patch .responses-inner tr {
+  background: var(--docs-method-patch-responses) !important;
 }
 
 .swagger-ui .opblock.opblock-delete {
-  border-color: rgba(255, 108, 108, 0.38);
+  border-color: var(--docs-method-delete-border);
 }
 
 .swagger-ui .opblock.opblock-delete .responses-inner,
 .swagger-ui .opblock.opblock-delete .responses-table,
 .swagger-ui .opblock.opblock-delete .responses-inner > div,
+.swagger-ui .opblock.opblock-delete .responses-inner table,
+.swagger-ui .opblock.opblock-delete .responses-inner tbody,
+.swagger-ui .opblock.opblock-delete .responses-inner tr {
+  background: var(--docs-method-delete-responses) !important;
+}
+
 .swagger-ui .opblock.opblock-delete .responses-inner td,
 .swagger-ui .opblock.opblock-delete .responses-inner th {
-  background: rgba(61, 18, 28, 0.92) !important;
+  background: transparent !important;
 }
 
 @media (max-width: 720px) {
