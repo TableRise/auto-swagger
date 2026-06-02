@@ -175,7 +175,7 @@ test('registers routes, writes grouped docs, and serves docs routes', async () =
     assert.equal(fs.existsSync(docsFilePath), true);
     assert.match(
       loggedMessages.join('\n'),
-      /Swagger docs generated for group "users" at ".*swagger-doc-users\.json"/
+      /\x1b\[36m\[[0-9TZ:.\-]+\]\x1b\[0m \x1b\[32m\[INFO\]\x1b\[0m \x1b\[90m\[auto-swagger\]\x1b\[0m \x1b\[97mSwagger docs generated for group "users"\x1b\[0m/
     );
 
     const docs = JSON.parse(fs.readFileSync(docsFilePath, 'utf8'));
@@ -251,6 +251,31 @@ test('registers routes, writes grouped docs, and serves docs routes', async () =
     const docsJsonResponse = await request(app).get('/api-docs/users/swagger.json');
     assert.equal(docsJsonResponse.status, 200);
     assert.equal(docsJsonResponse.body.info.title, 'Test API');
+  });
+});
+
+test('does not emit logs when createAutoSwagger is configured with logs disabled', async () => {
+  await withTempProject(async () => {
+    const originalConsoleLog = console.log;
+    const loggedMessages = [];
+    console.log = (...args) => {
+      loggedMessages.push(args.join(' '));
+    };
+
+    try {
+      const swagger = createAutoSwagger({
+        logs: false,
+        docs: {
+          title: 'Silent API',
+        },
+      });
+
+      swagger.provideRoutes(buildUsersRoutes(), { group: 'users' }).register();
+    } finally {
+      console.log = originalConsoleLog;
+    }
+
+    assert.deepEqual(loggedMessages, []);
   });
 });
 

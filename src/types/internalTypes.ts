@@ -10,6 +10,7 @@ export interface NormalizedDocsConfig {
   description?: string;
   defaultSecurityScheme?: string;
   indexTitle: string;
+  logsEnabled: boolean;
   mountPath: string;
   outputDir: string;
   securitySchemes: Record<string, unknown>;

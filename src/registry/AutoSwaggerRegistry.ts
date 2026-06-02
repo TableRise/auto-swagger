@@ -38,6 +38,7 @@ function normalizeDocsConfig(config: AutoSwaggerConfig = {}): NormalizedDocsConf
     description: docs.description,
     defaultSecurityScheme: docs.defaultSecurityScheme,
     indexTitle: docs.indexTitle ?? 'Swagger Docs',
+    logsEnabled: config.logs ?? true,
     mountPath: normalizeMountPath(docs.mountPath),
     outputDir: path.resolve(process.cwd(), outputDir),
     securitySchemes: docs.securitySchemes ?? {},
@@ -186,7 +187,9 @@ export class AutoSwaggerRegistry {
 
     try {
       fs.writeFileSync(filePath, JSON.stringify(document, null, 2), 'utf8');
-      logInfo(`Swagger docs generated for group "${group}" at "${filePath}"`);
+      if (this.docsConfig.logsEnabled) {
+        logInfo(`Swagger docs generated for group "${group}"`);
+      }
     } catch (error) {
       throw new Error(`Unable to write Swagger document for group "${group}" to "${filePath}"`);
     }

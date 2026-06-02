@@ -61,6 +61,7 @@ export interface AutoSwaggerDocsConfig {
 
 export interface AutoSwaggerConfig {
   docs?: AutoSwaggerDocsConfig;
+  logs?: boolean;
 }
 
 export interface ProvidedRoutesRegistration {
