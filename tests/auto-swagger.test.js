@@ -210,10 +210,14 @@ test('registers routes, writes grouped docs, and serves docs routes', async () =
     assert.match(docsStylesResponse.headers['content-type'], /text\/css/);
     assert.match(docsStylesResponse.text, /color-scheme:\s*dark/);
     assert.match(docsStylesResponse.text, /--docs-bg:\s*#0a0f1f/);
+    assert.match(docsStylesResponse.text, /\.swagger-ui \.information-container\s*\{\s*display:\s*none;/);
     assert.match(docsStylesResponse.text, /\.swagger-ui \.information-container,\s*\.swagger-ui \.scheme-container[\s\S]*background:\s*transparent !important/);
-    assert.match(docsStylesResponse.text, /\.swagger-ui \.opblock \.opblock-summary-path,\s*\.swagger-ui \.opblock \.opblock-summary-path__deprecated\s*\{[\s\S]*font-size:\s*14px/);
-    assert.match(docsStylesResponse.text, /@container swagger-ui \(max-width: 768px\)\s*\{[\s\S]*font-size:\s*10px/);
-    assert.match(docsStylesResponse.text, /\.swagger-ui \.opblock-tag,\s*\.swagger-ui \.opblock \.opblock-summary-path[\s\S]*color:\s*#fff !important/);
+    assert.match(docsStylesResponse.text, /\.swagger-ui \.opblock \.opblock-summary-method\s*\{[\s\S]*font-size:\s*11px/);
+    assert.match(docsStylesResponse.text, /\.swagger-ui \.opblock \.opblock-summary-path,\s*\.swagger-ui \.opblock \.opblock-summary-path__deprecated\s*\{[\s\S]*font-size:\s*12px/);
+    assert.match(docsStylesResponse.text, /@container swagger-ui \(max-width: 768px\)\s*\{[\s\S]*\.swagger-ui \.opblock \.opblock-summary-method\s*\{[\s\S]*font-size:\s*9px/);
+    assert.match(docsStylesResponse.text, /@container swagger-ui \(max-width: 768px\)\s*\{[\s\S]*\.swagger-ui \.opblock \.opblock-summary-path,\s*\.swagger-ui \.opblock \.opblock-summary-path__deprecated\s*\{[\s\S]*font-size:\s*9px/);
+    assert.match(docsStylesResponse.text, /\.swagger-ui \.opblock-tag,\s*\.swagger-ui \.opblock \.opblock-summary-path[\s\S]*color:\s*var\(--docs-text\) !important/);
+    assert.match(docsStylesResponse.text, /\.swagger-ui \.opblock-body,\s*\.swagger-ui \.opblock-body p[\s\S]*color:\s*var\(--docs-text\) !important/);
 
     const docsLogoResponse = await request(app).get('/api-docs/logo.png');
     assert.equal(docsLogoResponse.status, 404);
@@ -223,6 +227,9 @@ test('registers routes, writes grouped docs, and serves docs routes', async () =
     assert.match(docsUiResponse.text, /swagger-ui/);
     assert.match(docsUiResponse.text, /docs\.css/);
     assert.match(docsUiResponse.text, /swagger-initializer\.js/);
+    assert.match(docsUiResponse.text, /<span class="docs-badge docs-badge-neutral">1\.0\.0<\/span>/);
+    assert.match(docsUiResponse.text, /<span class="docs-badge docs-badge-accent">OAS 3\.0<\/span>/);
+    assert.match(docsUiResponse.text, /<a class="docs-json-path" href="\/api-docs\/users\/swagger\.json">\/api-docs\/users\/swagger\.json<\/a>/);
     assert.doesNotMatch(docsUiResponse.text, /rel="icon"/);
     assert.doesNotMatch(docsUiResponse.text, /<img class="docs-logo"/);
     assert.doesNotMatch(docsUiResponse.text, /window\.onload = function/);
