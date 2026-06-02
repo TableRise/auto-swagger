@@ -39,7 +39,7 @@ a {
 }
 
 .docs-shell {
-  width: min(70vw, calc(100% - 2rem));
+  width: min(80vw, calc(100% - 2rem));
   margin: 0 auto;
 }
 
@@ -362,6 +362,18 @@ a {
   background: transparent !important;
 }
 
+.swagger-ui .highlight-code,
+.swagger-ui .highlight-code pre,
+.swagger-ui .microlight,
+.swagger-ui pre.microlight,
+.swagger-ui .model-example,
+.swagger-ui .model-example pre,
+.swagger-ui .example,
+.swagger-ui .example textarea {
+  background: rgba(5, 10, 20, 0.96) !important;
+  border-radius: 14px;
+}
+
 .swagger-ui .opblock-section-header {
   box-shadow: none;
 }
@@ -432,10 +444,69 @@ a {
 .swagger-ui input[type=password],
 .swagger-ui input[type=search],
 .swagger-ui input[type=email],
+.swagger-ui input[type=file],
+.swagger-ui input[type=number],
+.swagger-ui input[type=url],
+.swagger-ui input[type=tel],
 .swagger-ui textarea {
   border-radius: 12px;
   border-color: var(--docs-border-strong);
   background: rgba(8, 13, 27, 0.95);
+  color: var(--docs-text);
+}
+
+.swagger-ui input::placeholder,
+.swagger-ui textarea::placeholder {
+  color: var(--docs-text-muted);
+}
+
+.swagger-ui .opblock-body select,
+.swagger-ui .opblock-body input[type=text],
+.swagger-ui .opblock-body input[type=password],
+.swagger-ui .opblock-body input[type=search],
+.swagger-ui .opblock-body input[type=email],
+.swagger-ui .opblock-body input[type=file],
+.swagger-ui .opblock-body input[type=number],
+.swagger-ui .opblock-body input[type=url],
+.swagger-ui .opblock-body input[type=tel],
+.swagger-ui .opblock-body textarea {
+  background: rgba(8, 13, 27, 0.95) !important;
+  color: var(--docs-text) !important;
+  border-color: var(--docs-border-strong) !important;
+  caret-color: var(--docs-text);
+}
+
+.swagger-ui .opblock-body select:not(:disabled),
+.swagger-ui .opblock-body input[type=text]:not(:disabled),
+.swagger-ui .opblock-body input[type=password]:not(:disabled),
+.swagger-ui .opblock-body input[type=search]:not(:disabled),
+.swagger-ui .opblock-body input[type=email]:not(:disabled),
+.swagger-ui .opblock-body input[type=file]:not(:disabled),
+.swagger-ui .opblock-body input[type=number]:not(:disabled),
+.swagger-ui .opblock-body input[type=url]:not(:disabled),
+.swagger-ui .opblock-body input[type=tel]:not(:disabled),
+.swagger-ui .opblock-body textarea:not(:disabled) {
+  background: rgba(4, 9, 18, 0.98) !important;
+  box-shadow: 0 0 0 1px rgba(138, 162, 255, 0.14);
+}
+
+.swagger-ui .opblock-body select:not(:disabled):focus,
+.swagger-ui .opblock-body input[type=text]:not(:disabled):focus,
+.swagger-ui .opblock-body input[type=password]:not(:disabled):focus,
+.swagger-ui .opblock-body input[type=search]:not(:disabled):focus,
+.swagger-ui .opblock-body input[type=email]:not(:disabled):focus,
+.swagger-ui .opblock-body input[type=file]:not(:disabled):focus,
+.swagger-ui .opblock-body input[type=number]:not(:disabled):focus,
+.swagger-ui .opblock-body input[type=url]:not(:disabled):focus,
+.swagger-ui .opblock-body input[type=tel]:not(:disabled):focus,
+.swagger-ui .opblock-body textarea:not(:disabled):focus {
+  border-color: var(--docs-text) !important;
+  box-shadow: 0 0 0 1px rgba(237, 242, 255, 0.22);
+  outline: none;
+}
+
+.swagger-ui .btn.try-out__btn {
+  border-color: var(--docs-text);
   color: var(--docs-text);
 }
 
@@ -454,8 +525,24 @@ a {
   border-color: rgba(80, 191, 255, 0.42);
 }
 
+.swagger-ui .opblock.opblock-get .responses-inner,
+.swagger-ui .opblock.opblock-get .responses-table,
+.swagger-ui .opblock.opblock-get .responses-inner > div,
+.swagger-ui .opblock.opblock-get .responses-inner td,
+.swagger-ui .opblock.opblock-get .responses-inner th {
+  background: rgba(18, 31, 61, 0.92) !important;
+}
+
 .swagger-ui .opblock.opblock-post {
   border-color: rgba(61, 220, 151, 0.36);
+}
+
+.swagger-ui .opblock.opblock-post .responses-inner,
+.swagger-ui .opblock.opblock-post .responses-table,
+.swagger-ui .opblock.opblock-post .responses-inner > div,
+.swagger-ui .opblock.opblock-post .responses-inner td,
+.swagger-ui .opblock.opblock-post .responses-inner th {
+  background: rgba(15, 44, 35, 0.92) !important;
 }
 
 .swagger-ui .opblock.opblock-put,
@@ -463,8 +550,29 @@ a {
   border-color: rgba(255, 181, 72, 0.38);
 }
 
+.swagger-ui .opblock.opblock-put .responses-inner,
+.swagger-ui .opblock.opblock-put .responses-table,
+.swagger-ui .opblock.opblock-put .responses-inner > div,
+.swagger-ui .opblock.opblock-put .responses-inner td,
+.swagger-ui .opblock.opblock-put .responses-inner th,
+.swagger-ui .opblock.opblock-patch .responses-inner,
+.swagger-ui .opblock.opblock-patch .responses-table,
+.swagger-ui .opblock.opblock-patch .responses-inner > div,
+.swagger-ui .opblock.opblock-patch .responses-inner td,
+.swagger-ui .opblock.opblock-patch .responses-inner th {
+  background: rgba(61, 39, 15, 0.92) !important;
+}
+
 .swagger-ui .opblock.opblock-delete {
   border-color: rgba(255, 108, 108, 0.38);
+}
+
+.swagger-ui .opblock.opblock-delete .responses-inner,
+.swagger-ui .opblock.opblock-delete .responses-table,
+.swagger-ui .opblock.opblock-delete .responses-inner > div,
+.swagger-ui .opblock.opblock-delete .responses-inner td,
+.swagger-ui .opblock.opblock-delete .responses-inner th {
+  background: rgba(61, 18, 28, 0.92) !important;
 }
 
 @media (max-width: 720px) {

@@ -218,6 +218,10 @@ test('registers routes, writes grouped docs, and serves docs routes', async () =
     assert.match(docsStylesResponse.text, /@container swagger-ui \(max-width: 768px\)\s*\{[\s\S]*\.swagger-ui \.opblock \.opblock-summary-path,\s*\.swagger-ui \.opblock \.opblock-summary-path__deprecated\s*\{[\s\S]*font-size:\s*9px/);
     assert.match(docsStylesResponse.text, /\.swagger-ui \.opblock-tag,\s*\.swagger-ui \.opblock \.opblock-summary-path[\s\S]*color:\s*var\(--docs-text\) !important/);
     assert.match(docsStylesResponse.text, /\.swagger-ui \.opblock-body,\s*\.swagger-ui \.opblock-body p[\s\S]*color:\s*var\(--docs-text\) !important/);
+    assert.match(docsStylesResponse.text, /\.swagger-ui \.opblock\.opblock-get \.responses-inner[\s\S]*background:\s*rgba\(18, 31, 61, 0\.92\) !important/);
+    assert.match(docsStylesResponse.text, /\.swagger-ui \.opblock\.opblock-delete \.responses-inner[\s\S]*background:\s*rgba\(61, 18, 28, 0\.92\) !important/);
+    assert.match(docsStylesResponse.text, /\.swagger-ui \.highlight-code,\s*\.swagger-ui \.highlight-code pre[\s\S]*background:\s*rgba\(5, 10, 20, 0\.96\) !important/);
+    assert.match(docsStylesResponse.text, /\.swagger-ui \.opblock-body select:not\(:disabled\),[\s\S]*box-shadow:\s*0 0 0 1px rgba\(138, 162, 255, 0\.14\)/);
 
     const docsLogoResponse = await request(app).get('/api-docs/logo.png');
     assert.equal(docsLogoResponse.status, 404);
