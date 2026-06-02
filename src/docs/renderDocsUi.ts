@@ -485,11 +485,17 @@ a {
 .swagger-ui section.models,
 .swagger-ui .dialog-ux .modal-ux,
 .swagger-ui .dialog-ux .modal-ux-header,
-.swagger-ui .dialog-ux .modal-ux-content,
-.swagger-ui .response-col_description__inner div.markdown,
-.swagger-ui .response-col_description__inner div.renderedMarkdown {
+.swagger-ui .dialog-ux .modal-ux-content {
   background: var(--docs-surface-strong);
   border-color: var(--docs-border);
+  color: var(--docs-text);
+}
+
+.swagger-ui .response-col_description__inner,
+.swagger-ui .response-col_description__inner div,
+.swagger-ui .response-col_description__inner div.markdown,
+.swagger-ui .response-col_description__inner div.renderedMarkdown {
+  background: transparent !important;
   color: var(--docs-text);
 }
 
@@ -503,6 +509,7 @@ a {
 
 .swagger-ui .information-container,
 .swagger-ui .scheme-container,
+.swagger-ui .scheme-container .wrapper,
 .swagger-ui .scheme-container .schemes,
 .swagger-ui .scheme-container .auth-wrapper,
 .swagger-ui .scheme-container .auth-container,
@@ -513,6 +520,13 @@ a {
 .swagger-ui .information-container,
 .swagger-ui .scheme-container {
   border: 0;
+}
+
+.swagger-ui .scheme-container,
+.swagger-ui .scheme-container .wrapper,
+.swagger-ui .scheme-container .auth-wrapper {
+  box-shadow: none !important;
+  padding: 0 !important;
 }
 
 .swagger-ui .dialog-ux {
@@ -538,6 +552,18 @@ a {
 
 .swagger-ui .dialog-ux .auth-container {
   border-color: var(--docs-border);
+}
+
+.swagger-ui .dialog-ux .auth-container,
+.swagger-ui .dialog-ux .auth-container *,
+.swagger-ui .dialog-ux .auth-container h4,
+.swagger-ui .dialog-ux .auth-container h5,
+.swagger-ui .dialog-ux .auth-container p,
+.swagger-ui .dialog-ux .auth-container label,
+.swagger-ui .dialog-ux .auth-container code,
+.swagger-ui .dialog-ux .auth-container span,
+.swagger-ui .dialog-ux .auth-container div {
+  color: var(--docs-text) !important;
 }
 
 .swagger-ui .dialog-ux .auth-btn-wrapper {
